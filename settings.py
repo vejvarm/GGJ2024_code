@@ -1,6 +1,6 @@
 import pathlib
 
-ROOT = pathlib.Path(__file__).parent.parent
+ROOT = pathlib.Path("../")
 
 MAPS_FOLDER = ROOT.joinpath("assets/Maps")
 OBJECTS_FOLDER = ROOT.joinpath("assets/objects")

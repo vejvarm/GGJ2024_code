@@ -121,7 +121,7 @@ class Player_Character(pygame.sprite.Sprite):
             else:
                 self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                 self.draw_position = self.update_player_position()
-        print(self.combined_objects)
+        # print(self.combined_objects)
 
     def level_win_conditions_met(self):
         if LEVEL_WIN_CONDITION[self.current_level] == self.combined_objects:

@@ -41,8 +41,8 @@ class Game:
                 # elif event.key == pygame.K_e:
                 #     self.core.next_level()
 
-            pygame.display.update()
             self.core.run(dt, ev)
+            pygame.display.update()
 
 
       

@@ -7,7 +7,8 @@ from collections import namedtuple
 class Object_character(pygame.sprite.Sprite):
     def __init__(self, groups, pos, obj_class_id, y_order, layer='object'):
         super().__init__(groups)
-        self.image = pygame.image.load(f'../assets/objects/{obj_class_id}.png')         
+        path_to_image = OBJECTS_FOLDER.joinpath(f"{obj_class_id}.png")
+        self.image = pygame.image.load(path_to_image)
         self.type = OBJECTS[obj_class_id]
         self.grid_position = {'x':pos[0], 'y':pos[1]}
         self.draw_position = self.draw_object()
