@@ -87,7 +87,7 @@ OBJECT_COMBINATIONS = {
 
 
 LEVEL_WIN_CONDITION = {
-    0: 1,  # one combination
+    0: 2,  # one combination
     1: 2,  # two combinations
     2: 2,  # three combinations
     3: 2,  # two combinations

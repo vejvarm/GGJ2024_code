@@ -74,14 +74,15 @@ class Core:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 self.player_character.font_on_screen = False
-        elif self.player_character.font_on_screen and not self.player_character.winner and self.player_character.is_combined and self.player_character.level_win_conditions_met():
+        elif self.player_character.font_on_screen and not self.player_character.winner and self.player_character.is_combined:
             self.all_sprites.custom_draw(self.player_character)
-            font_rend = self.player_character.font.render(f'...{self.player_character.text_message}?', False, 'White')
+            font_rend = self.player_character.font.render(f'{self.player_character.text_message}', False, 'White')
             font_rect = font_rend.get_rect(center = self.player_character.draw_position)
             pygame.draw.rect(self.display_surface, 'Red', font_rect)
             self.display_surface.blit(font_rend, font_rect)
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
+                self.player_character.font_on_screen = False
                 self.reset_level()
         elif not self.player_character.font_on_screen and self.player_character.winner:
             if self.play_win:

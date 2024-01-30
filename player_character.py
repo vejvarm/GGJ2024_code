@@ -65,21 +65,22 @@ class Player_Character(pygame.sprite.Sprite):
         # check level exists = can't go outside of level
         if to_position in self.ground_map.keys():
             # check object exists where we're moving
-            if to_position in self.object_map.keys():
-                self.winner = self.level_win_conditions_met()
+            if to_position in self.object_map.keys():                
                 # check if object combines with player
                 obj_a = self.type[0]
                 obj_b = self.object_map[to_position].type[0]
                 if self.objects_can_be_combined(obj_a, obj_b):
                     # COMBINE PLAYER AND OBJECT!
                     self.combined_objects += 1
+                    self.winner = self.level_win_conditions_met()
                     self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                     self.draw_position = self.update_player_position()
                     # draw player on top of object
                     self.is_combined = True
-                    self.text_message = "FAILED: you're on a thing but not all things are on things!"
-                    self.y_order = 9001
-                    self.font_on_screen = True
+                    if not self.winner:
+                        self.text_message = "FAILED: you're on a thing but not all things are on things!"
+                        self.font_on_screen = True
+                    self.y_order = 9001                    
                     self.draw_position = (self.draw_position[0], self.draw_position[1] - TILE_SIZE / 4)
                     self.rect = self.image.get_rect(topleft=self.draw_position)
                     return
@@ -102,6 +103,7 @@ class Player_Character(pygame.sprite.Sprite):
                             if not self.is_combined:
                                 # Combine normal stuff
                                 self.combined_objects += 1
+                                self.winner = self.level_win_conditions_met()
                                 self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                                 self.draw_position = self.update_player_position()
                                 # draw objects on top of each other
