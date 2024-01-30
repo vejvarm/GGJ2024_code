@@ -61,6 +61,10 @@ class Core:
         self._reset(self.level)
 
     def run(self, dt, event):
+        if self.player_character.reset_level:
+            self.reset_level()
+            self.player_character.reset_level = False
+
         if not self.player_character.font_on_screen and not self.player_character.winner:
             self.display_surface.fill('#' + LEVEL_BACKGROUND[self.level])
             self.all_sprites.custom_draw(self.player_character)

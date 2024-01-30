@@ -28,7 +28,8 @@ class Player_Character(pygame.sprite.Sprite):
         self.current_level = 0
         self.is_combined = False
         self.text_message = ''
-        self.loser = False
+        self.reset_level = False
+
 
     def update_player_position(self):
         position = calculate_position(self.grid_position['x'], self.grid_position['y'])
@@ -56,6 +57,8 @@ class Player_Character(pygame.sprite.Sprite):
             if event.key == pygame.K_DOWN:
                 dy += 1
                 move = True
+            if event.key == pygame.K_r:
+                self.reset_level = True    
 
         if move:
             self.move_player(self.grid_position, (self.grid_position['x'] + dx, self.grid_position['y'] + dy))
