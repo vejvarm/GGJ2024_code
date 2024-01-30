@@ -91,8 +91,7 @@ class Player_Character(pygame.sprite.Sprite):
                 if self.object_map[to_position].type[1] == 1:
                     # check if object can be moved - is there edge of level
                     pos_direction_vector = (to_position[0] - from_position[0], to_position[1] - from_position[1])
-                    beyond_object_pos = (
-                    to_position[0] + pos_direction_vector[0], to_position[1] + pos_direction_vector[1])
+                    beyond_object_pos = (to_position[0] + pos_direction_vector[0], to_position[1] + pos_direction_vector[1])
                     if beyond_object_pos not in self.ground_map.keys():
                         # cant move, no map
                         return

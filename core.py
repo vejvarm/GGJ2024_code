@@ -35,6 +35,7 @@ class Core:
         self.player_obj_id = LEVEL_PLAYER_ID_MAP[self.level]
         self.all_sprites.empty()
         self.load_level(level) 
+        self.player_character.current_level = self.level
         self.player_character.combined_objects = 0
         self.player_character.winner = False 
          
@@ -47,6 +48,7 @@ class Core:
         max_level = len(LEVEL_PLAYER_ID_MAP) - 1
         #self.level = min(max_level - 1, self.level + 1)
         self.level += 1
+        self.player_character.current_level = self.level
         if self.level == max_level:
             self.level = 0
         self._reset(self.level)
