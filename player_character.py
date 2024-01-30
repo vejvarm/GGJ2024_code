@@ -77,7 +77,9 @@ class Player_Character(pygame.sprite.Sprite):
                     self.draw_position = self.update_player_position()
                     # draw player on top of object
                     self.is_combined = True
+                    self.text_message = "FAILED: you're on a thing but not all things are on things!"
                     self.y_order = 9001
+                    self.font_on_screen = True
                     self.draw_position = (self.draw_position[0], self.draw_position[1] - TILE_SIZE / 4)
                     self.rect = self.image.get_rect(topleft=self.draw_position)
                     return
