@@ -1,3 +1,12 @@
+# But have you heard of ... <br> (game from Global Game Jam 2024)
+
+---
+# Links
+> [Introduction Video](https://youtu.be/IBjYyKP618Y) \
+> [Game page on GGJ website](https://globalgamejam.org/games/2024/have-you-heard-3) \
+> [Alpha demo build](https://ggjv4.s3.us-west-1.amazonaws.com/files/games/2024/13277/exec/but_have_you_heard_of.zip?VersionId=sVb.AnX_JYuhNRnu6XyYcY1cH_XJoP2V)
+
+
 # Todo list
 - number = priority
 
