@@ -1,4 +1,0 @@
-pyinstaller
-include python dll
-
-pyinstaller --paths C:\Users\Fil\AppData\Local\Programs\Python\Python311\python311.dll --onefile code/main.py
