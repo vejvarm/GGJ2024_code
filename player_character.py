@@ -105,7 +105,7 @@ class Player_Character(pygame.sprite.Sprite):
                                 #special case of oversized object e.g. TRUCK 
                                 if self.is_part_of_oversized_object(OBJECT_NAME_MAP[obj_a]):
                                     self.combined_objects += 1
-                                    self.object_map[beyond_object_pos].is_combined = True
+                                    self.object_map[beyond_object_pos].is_combined_with = obj_b
                                     self.grid_position = {'x':to_position[0], 'y': to_position[1]} 
                                     self.draw_position = self.update_player_position()                        
                                     self.update_object_position(to_position, from_position, True, True)
@@ -148,19 +148,21 @@ class Player_Character(pygame.sprite.Sprite):
                 #for each part (obj id) find in map and check if combined
                 for v in values[1]:
                     for o in self.object_map:
-                        if self.object_map[o].type[0] == OBJECTS[v][0] and self.object_map[o].is_combined == True:
+                        if self.object_map[o].type[0] == OBJECTS[v][0] and self.object_map[o].is_combined_with != '':
                         #if o.type[0] == OBJECT_NAME_MAP[v] and o.is_combined == True:
                             num_of_parts_combined += 1
                             list_of_parts.append(self.object_map[o].grid_position)
                 if num_of_parts_combined == obj_size:
                     #all parts combined, remove all objects
-                    #names_of_parts = []
+                    names_of_parts_big = []
+                    names_of_parts = []
                     for o_pos in list_of_parts:
-                        #names_of_parts.append(self.object_map[(o_pos['x'],o_pos['y'])].type[0])
+                        names_of_parts_big.append(self.object_map[(o_pos['x'],o_pos['y'])].type[0])
+                        names_of_parts.append(self.object_map[(o_pos['x'],o_pos['y'])].is_combined_with)
                         self.object_map.pop((o_pos['x'],o_pos['y']))
                     #display final text for all parts
-                    #self.text_message = f'{obj_b} on a {obj_a}'
-                    #self.font_on_screen = True    
+                    self.text_message = f'{names_of_parts[0]} and {names_of_parts[1]} on a {names_of_parts_big[0]}'
+                    self.font_on_screen = True    
                 
     def is_part_of_oversized_object(self, obj_id):
         for values in OBJECTS_OVERSIZED.values():

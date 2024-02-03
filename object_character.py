@@ -14,7 +14,7 @@ class Object_character(pygame.sprite.Sprite):
         self.draw_position = self.draw_object()
         self.z = LAYERS[layer]
         self.y_order = y_order
-        self.is_combined = False
+        self.is_combined_with = ''
 
     def draw_object(self):
         position = calculate_position(self.grid_position['x'], self.grid_position['y'])
