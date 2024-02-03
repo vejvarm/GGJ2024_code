@@ -7,7 +7,6 @@ from debug import debug
 from support import calculate_position
 from collections import namedtuple
 
-
 class Player_Character(pygame.sprite.Sprite):
     def __init__(self, groups, pos: tuple[int, int], z, object_map, ground_map, y_order, obj_class_id: int):
         super().__init__(groups)
@@ -103,20 +102,30 @@ class Player_Character(pygame.sprite.Sprite):
                         if self.objects_can_be_combined(obj_a, obj_b):
                             # COMBINE!
                             if not self.is_combined:
-                                # Combine normal stuff
-                                self.combined_objects += 1
-                                self.winner = self.level_win_conditions_met()
-                                self.grid_position = {'x': to_position[0], 'y': to_position[1]}
-                                self.draw_position = self.update_player_position()
-                                # draw objects on top of each other
-                                self.update_object_position(to_position, from_position, True, False)
-                                # dray the on top over the one on the bottom
-                                self.object_map[beyond_object_pos].y_order = 9001
-                                # dispaly text
-                                self.text_message = f'{obj_b} on a {obj_a}'
-                                self.font_on_screen = True
-                                # hide objects
-                                self.object_map.pop(beyond_object_pos)
+                                #special case of oversized object e.g. TRUCK 
+                                if self.is_part_of_oversized_object(OBJECT_NAME_MAP[obj_a]):
+                                    self.combined_objects += 1
+                                    self.object_map[beyond_object_pos].is_combined = True
+                                    self.grid_position = {'x':to_position[0], 'y': to_position[1]} 
+                                    self.draw_position = self.update_player_position()                        
+                                    self.update_object_position(to_position, from_position, True, True)
+                                    self.object_map[to_position].y_order = 9001
+                                    self.combine_oversized_object(OBJECT_NAME_MAP[obj_a])
+                                else:
+                                    # Combine normal stuff
+                                    self.combined_objects += 1
+                                    self.winner = self.level_win_conditions_met()
+                                    self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                                    self.draw_position = self.update_player_position()
+                                    # draw objects on top of each other
+                                    self.update_object_position(to_position, from_position, True, False)
+                                    # draw the on top over the one on the bottom
+                                    self.object_map[beyond_object_pos].y_order = 9001
+                                    # display text
+                                    self.text_message = f'{obj_b} on a {obj_a}'
+                                    self.font_on_screen = True
+                                    # hide objects
+                                    self.object_map.pop(beyond_object_pos)
                             return
                     else:
                         # if not combining and movable, move player and object
@@ -129,22 +138,63 @@ class Player_Character(pygame.sprite.Sprite):
                 self.draw_position = self.update_player_position()
         # print(self.combined_objects)
 
+    def combine_oversized_object(self, obj_id):  
+  
+        for values in OBJECTS_OVERSIZED.values():
+            if obj_id in values[1]:             
+                obj_size = len(values[1])
+                num_of_parts_combined = 0
+                list_of_parts = []                
+                #for each part (obj id) find in map and check if combined
+                for v in values[1]:
+                    for o in self.object_map:
+                        if self.object_map[o].type[0] == OBJECTS[v][0] and self.object_map[o].is_combined == True:
+                        #if o.type[0] == OBJECT_NAME_MAP[v] and o.is_combined == True:
+                            num_of_parts_combined += 1
+                            list_of_parts.append(self.object_map[o].grid_position)
+                if num_of_parts_combined == obj_size:
+                    #all parts combined, remove all objects
+                    #names_of_parts = []
+                    for o_pos in list_of_parts:
+                        #names_of_parts.append(self.object_map[(o_pos['x'],o_pos['y'])].type[0])
+                        self.object_map.pop((o_pos['x'],o_pos['y']))
+                    #display final text for all parts
+                    #self.text_message = f'{obj_b} on a {obj_a}'
+                    #self.font_on_screen = True    
+                
+    def is_part_of_oversized_object(self, obj_id):
+        for values in OBJECTS_OVERSIZED.values():
+            if obj_id in values[1]:
+                return True
+        return False
+
     def level_win_conditions_met(self):
         if LEVEL_WIN_CONDITION[self.current_level] == self.combined_objects:
             return True
         else:
             return False
 
-    def update_object_position(self, to_position, from_position, combining, large_object):
+    def update_object_position(self, to_position, from_position, combining, oversized_object):
         pos = (to_position[0] - from_position[0], to_position[1] - from_position[1])
-        final_pos = (to_position[0] + pos[0], to_position[1] + pos[1])
-        self.object_map[final_pos] = self.object_map[to_position]
-        self.object_map.pop(to_position)
-        self.object_map[final_pos].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
-        if (combining):
-            self.object_map[final_pos].draw_object_combined()
+        final_pos = (to_position[0] + pos[0], to_position[1] + pos[1])          
+        #to pos = puck
+        #final pos = truck
+        if oversized_object == True:
+            #self.object_map[final_pos].type = (self.object_map[final_pos].type[0],0)  #set to not movable  
+            #self.object_map.pop(final_pos)
+            self.object_map[to_position].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
+            self.object_map[to_position].draw_object_combined()
         else:
-            self.object_map[final_pos].draw_object()
+            self.object_map[final_pos] = self.object_map[to_position]          
+            self.object_map.pop(to_position)
+            self.object_map[final_pos].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
+            if (combining):
+                self.object_map[final_pos].draw_object_combined()
+            else:
+                self.object_map[final_pos].draw_object()
+     
+               
+
 
     def objects_can_be_combined(self, obj_a, obj_b):
         # obj_a = 'bear'

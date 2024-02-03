@@ -15,12 +15,6 @@ TILE_SIZE = 96
 
 FPS = 30
 
-#overlay positions
-OVERLAY_POSITIONS = {
-    'tool': (40, DISPLAY_HEIGHT - 15),
-    'seed': (70, DISPLAY_HEIGHT - 5)
-    }
-
 #sprite layers
 LAYERS = {
     'ground': 0,
@@ -54,12 +48,17 @@ OBJECTS = {
     14: ('wall2', 0),
 }
 
+# name, ids to combine, number of combined
+OBJECTS_OVERSIZED = {
+    0: ('truck', (2,11)),
+}        
+
 OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
 
 # TODO: check for truck-front and truck-back
 
 #change to not hook
-DEFAULT_LEVEL = 0
+DEFAULT_LEVEL = 2
 LEVEL_PLAYER_ID_MAP = {
     0: 0,  # bear
     1: 0,  # bear
