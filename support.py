@@ -37,7 +37,7 @@ def load_object_map(path_to_csv: str):
         read_file = reader(file, delimiter = ',')
         for i, row in enumerate(read_file):
             for j, val in enumerate(row):
-                map[(i, j)] = val
+                map[(j, i)] = val
         return map
     
 
