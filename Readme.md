@@ -11,8 +11,7 @@
 - number = priority
 
 ## Want to do for sure
-
-    10 main menu with controls, authors
+    
     10 indicator on what level you are
     10 system for combining big objects (truck)
     10 better text when you fail

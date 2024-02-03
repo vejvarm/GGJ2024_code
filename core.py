@@ -63,6 +63,7 @@ class Core:
         self._reset(self.level)
 
     def run(self, dt, event):
+        #title screen
         if self.main_menu == True:
             custom_font = pygame.font.Font(None, 66)
             font_rend = custom_font.render('But have you heard of ...?', True, (100, 100, 100))
@@ -71,20 +72,20 @@ class Core:
             self.display_surface.blit(font_rend, font_rect)
 
             font_rend2 = self.player_character.font.render('a game by Martin, Chan and Filip', False, 'White')
-            font_rect2 = font_rend.get_rect(topleft = (10, 120))
+            font_rect2 = font_rend2.get_rect(topleft = (10, 120))
             pygame.draw.rect(self.display_surface, 'Black', font_rect2)
             self.display_surface.blit(font_rend2, font_rect2)
 
             font_rend3 = self.player_character.font.render('Controls: arrow keys, space to continue, R to reset level', False, 'White')
-            font_rect3 = font_rend.get_rect(topleft = (10, 220))
+            font_rect3 = font_rend3.get_rect(topleft = (10, 220))
             pygame.draw.rect(self.display_surface, 'Black', font_rect3)
             self.display_surface.blit(font_rend3, font_rect3)
-
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 self.main_menu = False
             return
+        
         if self.player_character.reset_level:
             self.reset_level()
             self.player_character.reset_level = False
@@ -131,6 +132,13 @@ class Core:
 
                         #check that all combinations are done
                         #resets
+                
+        #display level number
+        font_level_status = self.player_character.font.render('Level: ' + str(self.level + 1) + ' ' + LEVEL_NAMES[self.level], False, 'White')
+        font_level_status_rect = font_level_status.get_rect(topleft = (10, 10))
+        pygame.draw.rect(self.display_surface, 'Black', font_level_status_rect)
+        self.display_surface.blit(font_level_status, font_level_status_rect)
+
     def load_level(self, level):
         path_to_level = MAPS_FOLDER.joinpath(f"level{level}.tmx")
         path_to_objects = MAPS_FOLDER.joinpath(f"level{level}_Objects.csv")

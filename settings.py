@@ -100,3 +100,10 @@ LEVEL_BACKGROUND = {
     3: '0689b4',
     4: '7b5825',
 }
+
+LEVEL_NAMES = {
+    0: 'Elf',    
+    1: 'Self',
+    2: 'First challenge', 
+    3: 'Multi-rhymes',    
+}
