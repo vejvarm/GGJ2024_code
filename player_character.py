@@ -153,16 +153,17 @@ class Player_Character(pygame.sprite.Sprite):
                             num_of_parts_combined += 1
                             list_of_parts.append(self.object_map[o].grid_position)
                 if num_of_parts_combined == obj_size:
-                    #all parts combined, remove all objects
-                    names_of_parts_big = []
+                    #all parts combined
                     names_of_parts = []
                     for o_pos in list_of_parts:
-                        names_of_parts_big.append(self.object_map[(o_pos['x'],o_pos['y'])].type[0])
                         names_of_parts.append(self.object_map[(o_pos['x'],o_pos['y'])].is_combined_with)
                         self.object_map.pop((o_pos['x'],o_pos['y']))
                     #display final text for all parts
-                    self.text_message = f'{names_of_parts[0]} and {names_of_parts[1]} on a {names_of_parts_big[0]}'
+                    #prepare message
+                    final_message = ' and '.join(names_of_parts)   
+                    self.text_message = f'{final_message} on a {values[0]}'
                     self.font_on_screen = True    
+                    #TODO remove/hide all objects
                 
     def is_part_of_oversized_object(self, obj_id):
         for values in OBJECTS_OVERSIZED.values():
@@ -182,7 +183,7 @@ class Player_Character(pygame.sprite.Sprite):
         #to pos = puck
         #final pos = truck
         if oversized_object == True:
-            #self.object_map[final_pos].type = (self.object_map[final_pos].type[0],0)  #set to not movable  
+            #self.object_map[to_position].type = (self.object_map[to_position].type[0],0)  #set to not movable  
             #self.object_map.pop(final_pos)
             self.object_map[to_position].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
             self.object_map[to_position].draw_object_combined()
@@ -196,8 +197,6 @@ class Player_Character(pygame.sprite.Sprite):
                 self.object_map[final_pos].draw_object()
      
                
-
-
     def objects_can_be_combined(self, obj_a, obj_b):
         # obj_a = 'bear'
         obj_a_id = OBJECT_NAME_MAP[obj_a]
