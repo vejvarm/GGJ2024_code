@@ -12,16 +12,15 @@
 
 ## Want to do for sure
     
-    10 system for combining big objects (truck)
-    10 better text when you fail
-    8 disappear objects after they are combined
     7 animation/effect for disappearing objects
     6 animation for main characters
-    2 animation for all objects
-    1 sound effects for moving, pushing and combining
+    3 animation for all objects
+    2 sound effects for moving, pushing and combining
     9 song for different win states
     9 enemy that follows you (on move or moves once in 2 seconds for example)
-    11 somehow comunicate that main character's name is FeeFee
+    1 somehow comunicate that main character's name is FeeFee
+    5 show keys on edges of screen
+    0 port this whole thing on android
 
 ## Ideas for Other mechanics
 

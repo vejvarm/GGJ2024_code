@@ -169,7 +169,6 @@ class Player_Character(pygame.sprite.Sprite):
                     final_message = ' and '.join(names_of_parts)   
                     self.text_message = f'{final_message} on a {values[0]}'
                     self.font_on_screen = True    
-                    #TODO remove/hide all objects
                 
     def is_part_of_oversized_object(self, obj_id):
         for values in OBJECTS_OVERSIZED.values():
