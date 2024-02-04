@@ -8,7 +8,7 @@ from support import calculate_position
 from collections import namedtuple
 
 class Player_Character(pygame.sprite.Sprite):
-    def __init__(self, groups, pos: tuple[int, int], z, object_map, ground_map, y_order, obj_class_id: int):
+    def __init__(self, groups, pos: tuple[int, int], z, object_map, ground_map, all_sprites, y_order, obj_class_id: int):
         super().__init__(groups)
         path_to_image = OBJECTS_FOLDER.joinpath(f"{obj_class_id}.png")
         self.image = pygame.image.load(path_to_image)
@@ -18,6 +18,7 @@ class Player_Character(pygame.sprite.Sprite):
         self.draw_position = self.update_player_position()
         self.object_map = object_map
         self.ground_map = ground_map
+        self.all_sprites = all_sprites
         self.y_order = y_order
         self.display_surface = pygame.display.get_surface()
         self.font = pygame.font.Font(None, 30)
@@ -28,6 +29,7 @@ class Player_Character(pygame.sprite.Sprite):
         self.is_combined = False
         self.text_message = ''
         self.reset_level = False
+        self.obj_to_hide = []
 
 
     def update_player_position(self):
@@ -118,6 +120,7 @@ class Player_Character(pygame.sprite.Sprite):
                                     self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                                     self.draw_position = self.update_player_position()
                                     # draw objects on top of each other
+                                    self.obj_to_hide.append(self.object_map[beyond_object_pos])
                                     self.update_object_position(to_position, from_position, True, False)
                                     # draw the on top over the one on the bottom
                                     self.object_map[beyond_object_pos].y_order = 9001
@@ -125,7 +128,8 @@ class Player_Character(pygame.sprite.Sprite):
                                     self.text_message = f'{obj_b} on a {obj_a}'
                                     self.font_on_screen = True
                                     # hide objects
-                                    self.object_map.pop(beyond_object_pos)
+                                    self.obj_to_hide.append(self.object_map.pop(beyond_object_pos))
+                                    
                             return
                     else:
                         # if not combining and movable, move player and object
@@ -187,7 +191,7 @@ class Player_Character(pygame.sprite.Sprite):
             #self.object_map.pop(final_pos)
             self.object_map[to_position].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
             self.object_map[to_position].draw_object_combined()
-        else:
+        else:            
             self.object_map[final_pos] = self.object_map[to_position]          
             self.object_map.pop(to_position)
             self.object_map[final_pos].grid_position = {'x': final_pos[0], 'y': final_pos[1]}

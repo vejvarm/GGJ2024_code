@@ -103,6 +103,10 @@ class Core:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 self.player_character.font_on_screen = False
+                #hide objects
+                for o in self.player_character.obj_to_hide:
+                    self.all_sprites.remove(o)
+                self.player_character.obj_to_hide = []
         elif self.player_character.font_on_screen and not self.player_character.winner and self.player_character.is_combined:
             self.all_sprites.custom_draw(self.player_character)
             font_rend = self.player_character.font.render(f'{self.player_character.text_message}', False, 'White')
@@ -154,7 +158,7 @@ class Core:
             if obj_id == -1:
                 continue
             elif obj_id == self.player_obj_id:
-                self.player_character = Player_Character(self.all_sprites, (x, y), 'object', self.obj_map, self.ground_map, y, obj_id)
+                self.player_character = Player_Character(self.all_sprites, (x, y), 'object', self.obj_map, self.ground_map, self.all_sprites, y, obj_id)
             else:
                 self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y, 'object')
     
