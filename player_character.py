@@ -109,10 +109,12 @@ class Player_Character(pygame.sprite.Sprite):
                                     self.combined_objects += 1
                                     self.object_map[beyond_object_pos].is_combined_with = obj_b
                                     self.grid_position = {'x':to_position[0], 'y': to_position[1]} 
-                                    self.draw_position = self.update_player_position()                        
+                                    self.draw_position = self.update_player_position()    
+                                    self.obj_to_hide.append(self.object_map[beyond_object_pos])                    
                                     self.update_object_position(to_position, from_position, True, True)
                                     self.object_map[to_position].y_order = 9001
                                     self.combine_oversized_object(OBJECT_NAME_MAP[obj_a])
+                                    self.obj_to_hide.append(self.object_map[to_position])
                                 else:
                                     # Combine normal stuff
                                     self.combined_objects += 1
