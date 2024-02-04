@@ -28,6 +28,9 @@
     - boar
     - buck (deer)
     - oar
+    - store
+    - door
+    - shore
 
 ## Ideas for Other mechanics
 
