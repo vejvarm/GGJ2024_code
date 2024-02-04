@@ -22,6 +22,12 @@
     5 show keys on edges of screen
     0 port this whole thing on android
 
+### New assets:
+
+    - boar
+    - buck (deer)
+    - oar
+
 ## Ideas for Other mechanics
 
     - compound words (bookshelf + elf = book)
@@ -34,11 +40,42 @@
 
 ## Ideas for levels
 
-    - board on the floor
-    - bear on a square (square is made of tiles and is an area of level, can't enter square until the end but must push things into square)
+### LEVEL 0
+
+    - elf on a shelf, bear on a chair
+
+### LEVEL 1
+
+    - duck on a puck, bear ona pair
+
+### LEVEL 2 
+
+    - puck and duck on truck, bear on a chair
+
+### LEVEL 3 
+
+    - flea on the sea
+    - bee on a tree
+    - fail: bee on flea or sea
+    - flea is following player = bee
+
+### LEVEL 4
+
+    - boar on the floor is fail
+    - avoid floor as a boar
+    - push bee on tree
+    - end on an oar 
+
+### LEVEL 5
+
+    - part of the level is a square, bear has to finish in that area     
 
 ## Building an exe
 
     - pyinstaller
     - include python dll
     - pyinstaller --paths C:\Users\Fil\AppData\Local\Programs\Python\Python311\python311.dll --onefile code/main.py
+
+## building and android version
+
+    - https://www.youtube.com/watch?v=L6XOqakZOeA
