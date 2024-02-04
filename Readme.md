@@ -14,6 +14,7 @@
     
     7 animation/effect for disappearing objects
     6 animation for main characters
+    6 animaiton for enemy that follows you
     3 animation for all objects
     2 sound effects for moving, pushing and combining
     9 song for different win states
