@@ -12,6 +12,7 @@
 
 ## Want to do for sure
     
+    10 clean up the code and remove unnecessary stuff
     7 animation/effect for disappearing objects
     6 animation for main characters
     6 animaiton for enemy that follows you
