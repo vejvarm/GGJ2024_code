@@ -58,7 +58,7 @@ OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
 # TODO: check for truck-front and truck-back
 
 #change to not hook
-DEFAULT_LEVEL = 0
+DEFAULT_LEVEL = 2
 LEVEL_PLAYER_ID_MAP = {
     0: 0,  # bear
     1: 0,  # bear

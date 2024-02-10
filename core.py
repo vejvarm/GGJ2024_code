@@ -85,15 +85,16 @@ class Core:
             if keys[pygame.K_SPACE]:
                 self.main_menu = False
             return
-        
+        #reseting level
         if self.player_character.reset_level:
             self.reset_level()
             self.player_character.reset_level = False
-
+        #regular gameplay - moving around
         if not self.player_character.font_on_screen and not self.player_character.winner:
             self.display_surface.fill('#' + LEVEL_BACKGROUND[self.level])
             self.all_sprites.custom_draw(self.player_character)
             self.all_sprites.update(dt, event)
+        #combined 2 objects    
         elif self.player_character.font_on_screen and not self.player_character.winner and not self.player_character.is_combined:
             self.all_sprites.custom_draw(self.player_character)            
             font_rend = self.player_character.font.render(f'...{self.player_character.text_message}?', False, 'White')
@@ -107,6 +108,7 @@ class Core:
                 for o in self.player_character.obj_to_hide:
                     self.all_sprites.remove(o)
                 self.player_character.obj_to_hide = []
+        #combined self and didn't win        
         elif self.player_character.font_on_screen and not self.player_character.winner and self.player_character.is_combined:
             self.all_sprites.custom_draw(self.player_character)
             font_rend = self.player_character.font.render(f'{self.player_character.text_message}', False, 'White')
@@ -117,12 +119,12 @@ class Core:
             if keys[pygame.K_SPACE]:
                 self.player_character.font_on_screen = False
                 self.reset_level()
+        #combined self and won -> next level        
         elif not self.player_character.font_on_screen and self.player_character.winner:
             if self.play_win:
                 # play win music
                 play_music('win.mp3')
-                self.play_win = False
-            self.player_character.combined_objects = 0
+                self.play_win = False            
             self.all_sprites.custom_draw(self.player_character)
             font_rend = self.player_character.font.render(f'...? You tell me ;)', False, 'White')
             font_rect = font_rend.get_rect(center = self.player_character.draw_position)
@@ -131,6 +133,7 @@ class Core:
             keys = pygame.key.get_pressed()
 
             if keys[pygame.K_SPACE]:
+                self.player_character.combined_objects = 0
                 self.play_win = True
                 self.next_level()
 
@@ -142,6 +145,12 @@ class Core:
         font_level_status_rect = font_level_status.get_rect(topleft = (10, 10))
         pygame.draw.rect(self.display_surface, 'Black', font_level_status_rect)
         self.display_surface.blit(font_level_status, font_level_status_rect)
+
+        #display number of combined objects
+        font_rend = self.player_character.font.render('Objects combined: ' + str(self.player_character.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.level]), False, 'White')
+        font_rect = font_rend.get_rect(topleft = (10, 40))
+        pygame.draw.rect(self.display_surface, 'Black', font_rect)
+        self.display_surface.blit(font_rend, font_rect)
 
     def load_level(self, level):
         path_to_level = MAPS_FOLDER.joinpath(f"level{level}.tmx")
