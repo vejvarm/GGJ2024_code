@@ -134,8 +134,18 @@ class Player_Character(pygame.sprite.Sprite):
                                     self.text_message = f'{obj_b} on a {obj_a}'
                                     self.font_on_screen = True
                                     # hide objects
-                                    self.obj_to_hide.append(self.object_map.pop(beyond_object_pos))
-                                    
+                                    self.obj_to_hide.append(self.object_map.pop(beyond_object_pos))                                    
+                            return
+                        else:
+                            # cant combine and both objects are movable, move both
+                            #is there space to move beyond second object
+                            beyond_beyond_object_pos = (beyond_object_pos[0] + pos_direction_vector[0], beyond_object_pos[1] + pos_direction_vector[1])
+                            if beyond_beyond_object_pos in self.ground_map.keys():
+                                self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                                self.draw_position = self.update_player_position()
+                                self.update_object_position(to_position, from_position, False, False)
+                                #TODO move second object
+                                #self.update_object_position(beyond_object_pos, to_position, False, False)
                             return
                     else:
                         # if not combining and movable, move player and object
@@ -189,11 +199,10 @@ class Player_Character(pygame.sprite.Sprite):
     def update_object_position(self, to_position, from_position, combining, oversized_object):
         pos = (to_position[0] - from_position[0], to_position[1] - from_position[1])
         final_pos = (to_position[0] + pos[0], to_position[1] + pos[1])          
-        #to pos = puck
-        #final pos = truck
+        # example
+        # to pos = puck
+        # final pos = truck
         if oversized_object == True:
-            #self.object_map[to_position].type = (self.object_map[to_position].type[0],0)  #set to not movable  
-            #self.object_map.pop(final_pos)
             self.object_map[to_position].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
             self.object_map[to_position].draw_object_combined()
         else:            

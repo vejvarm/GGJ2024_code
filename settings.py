@@ -92,10 +92,10 @@ OBJECT_COMBINATIONS = {
 
 
 LEVEL_WIN_CONDITION = {
-    0: 2,  # one combination
+    0: 2,  # two combinations
     1: 2,  # two combinations
     2: 3,  # three combinations
-    3: 2,  # two combinations
+    3: 3,  
 }
 
 LEVEL_BACKGROUND = {
