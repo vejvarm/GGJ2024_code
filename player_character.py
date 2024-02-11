@@ -35,7 +35,7 @@ class Player_Character(pygame.sprite.Sprite):
     def update_player_position(self):
         position = calculate_position(self.grid_position['x'], self.grid_position['y'])
         self.rect = self.image.get_rect(topleft=position)
-        self.y_order = self.grid_position['y']
+        self.y_order = self.grid_position['y'] + self.grid_position['x'] / 100
         return position
 
     def get_input(self, event):
