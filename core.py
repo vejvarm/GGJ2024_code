@@ -107,6 +107,9 @@ class Core:
                 #hide objects
                 for o in self.player_character.obj_to_hide:
                     self.all_sprites.remove(o)
+                    #pop from object map
+                    if (o.grid_position['x'],o.grid_position['y']) in self.player_character.object_map:
+                        self.player_character.object_map.pop((o.grid_position['x'],o.grid_position['y']))                                                                                                                                                               
                 self.player_character.obj_to_hide = []
         #combined self and didn't win        
         elif self.player_character.font_on_screen and not self.player_character.winner and self.player_character.is_combined:

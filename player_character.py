@@ -138,14 +138,35 @@ class Player_Character(pygame.sprite.Sprite):
                             return
                         else:
                             # cant combine and both objects are movable, move both
-                            #is there space to move beyond second object
+                            # is there space to move beyond second object
+                            # is there an object, can it be combined
                             beyond_beyond_object_pos = (beyond_object_pos[0] + pos_direction_vector[0], beyond_object_pos[1] + pos_direction_vector[1])
                             if beyond_beyond_object_pos in self.ground_map.keys():
-                                self.grid_position = {'x': to_position[0], 'y': to_position[1]}
-                                self.draw_position = self.update_player_position()
-                                self.update_object_position(to_position, from_position, False, False)
-                                #TODO move second object
-                                #self.update_object_position(beyond_object_pos, to_position, False, False)
+                                if beyond_beyond_object_pos in self.object_map.keys():
+                                    # or another object then check if it can be combined
+                                    obj_a = self.object_map[beyond_object_pos].type[0]
+                                    obj_b = self.object_map[beyond_beyond_object_pos].type[0]
+                                    if self.objects_can_be_combined(obj_a, obj_b):
+                                        self.combined_objects += 1
+                                        self.winner = self.level_win_conditions_met()
+                                        self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                                        self.draw_position = self.update_player_position()
+                                        self.obj_to_hide.append(self.object_map[beyond_beyond_object_pos])
+                                        self.obj_to_hide.append(self.object_map[beyond_object_pos])
+                                        self.update_object_position(beyond_object_pos, to_position, True, False)
+                                        self.update_object_position(to_position, from_position, False, False) 
+                                        # draw objects on top of each other
+                                        self.object_map[beyond_beyond_object_pos].y_order = 9001
+                                        self.text_message = f'{obj_a} on a {obj_b}'
+                                        self.font_on_screen = True
+                                                                              
+                                    return    
+                                else:
+                                    #move to empty space     
+                                    self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                                    self.draw_position = self.update_player_position()
+                                    self.update_object_position(beyond_object_pos, to_position, False, False)
+                                    self.update_object_position(to_position, from_position, False, False)                                                  
                             return
                     else:
                         # if not combining and movable, move player and object
