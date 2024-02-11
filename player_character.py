@@ -82,7 +82,7 @@ class Player_Character(pygame.sprite.Sprite):
                     # draw player on top of object
                     self.is_combined = True
                     if not self.winner:
-                        self.text_message = "FAILED: you're on a thing but not all things are on things!"
+                        self.text_message = f'{obj_a} on a {obj_b}' + "... FAILED: you're on a thing but not all things are on things!"
                         self.font_on_screen = True
                     self.y_order = 9001
                     if obj_b not in OBJECTS_INVISIBLE:                    
