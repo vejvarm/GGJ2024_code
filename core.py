@@ -186,7 +186,8 @@ class YSortGroup(pygame.sprite.Group):
         for layer in LAYERS.values():
             for sprite in sorted(self.sprites(), key=lambda sprite: sprite.y_order):
                 if sprite.z == layer:
-                    self.display_surface.blit(sprite.image,sprite)
+                    if sprite.type[0] not in OBJECTS_INVISIBLE:
+                        self.display_surface.blit(sprite.image,sprite)
 
     def scale(self, width, height):
         for sprite in self.sprites():

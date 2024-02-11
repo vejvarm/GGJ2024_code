@@ -84,8 +84,11 @@ class Player_Character(pygame.sprite.Sprite):
                     if not self.winner:
                         self.text_message = "FAILED: you're on a thing but not all things are on things!"
                         self.font_on_screen = True
-                    self.y_order = 9001                    
-                    self.draw_position = (self.draw_position[0], self.draw_position[1] - TILE_SIZE / 4)
+                    self.y_order = 9001
+                    if obj_b not in OBJECTS_INVISIBLE:                    
+                        self.draw_position = (self.draw_position[0], self.draw_position[1] - TILE_SIZE / 4)
+                    else:
+                        self.draw_position = (self.draw_position[0], self.draw_position[1])
                     self.rect = self.image.get_rect(topleft=self.draw_position)
                     return
                 # check object can be moved = type[1] == "1"

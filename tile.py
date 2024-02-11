@@ -8,3 +8,4 @@ class Tile(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = pos)
         self.z = LAYERS[z]
         self.y_order = y_order
+        self.type = ('tile', 0)

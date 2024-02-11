@@ -48,6 +48,12 @@ OBJECTS = {
     14: ('wall2', 0),
 }
 
+# objects that are displayed as tiles under the player character
+# but can be combined so they are also on the object map but invisible
+OBJECTS_INVISIBLE = {
+    'sea',
+}
+
 # name, ids to combine, number of combined
 OBJECTS_OVERSIZED = {
     0: ('truck', (2,11)),
@@ -58,7 +64,7 @@ OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
 # TODO: check for truck-front and truck-back
 
 #change to not hook
-DEFAULT_LEVEL = 2
+DEFAULT_LEVEL = 3
 LEVEL_PLAYER_ID_MAP = {
     0: 0,  # bear
     1: 0,  # bear
@@ -103,6 +109,6 @@ LEVEL_BACKGROUND = {
 LEVEL_NAMES = {
     0: 'Elf',    
     1: 'Self',
-    2: 'First challenge', 
-    3: 'Multi-rhymes',    
+    2: 'Big ass car', 
+    3: 'Desert island',    
 }

@@ -24,6 +24,11 @@
     5 show keys on edges of screen
     0 port this whole thing on android
 
+## Bugs
+
+    5 Bear's but is sticking through walls
+    2 Before you move object, if youstand behind it draw order is wrong, after you move object it's correct
+
 ### New assets:
 
     - boar
