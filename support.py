@@ -25,9 +25,9 @@ def import_folder(path):
             folder.append(file_surf)
     return folder
 
-def calculate_position(x, y): 
-    xx = (x - y) * TILE_SIZE/2 + DISPLAY_WIDTH//2
-    yy = (y+x)*TILE_SIZE/4 + DISPLAY_HEIGHT//4       
+def calculate_position(x, y, tile_size = TILE_SIZE): 
+    xx = (x - y) * tile_size/2 + DISPLAY_WIDTH//2
+    yy = (y+x)*tile_size/4 + DISPLAY_HEIGHT//4       
     return (xx, yy)
 
 

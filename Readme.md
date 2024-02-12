@@ -12,6 +12,8 @@
 
 ## Want to do for sure
     
+    99 walk over invisible objects
+    11 dpad picture for controls instead of a w s d letters
     10 clean up the code and remove unnecessary stuff
     7 animation/effect for disappearing objects
     6 animation for main characters
@@ -30,11 +32,8 @@
 
 ### New assets:
 
-    - boar
     - buck (deer)
-    - oar
     - store
-    - door
     - shore
 
 ### Win state sogs

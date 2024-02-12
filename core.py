@@ -13,6 +13,11 @@ class Core:
         self.level = DEFAULT_LEVEL
         self.player_obj_id = LEVEL_PLAYER_ID_MAP[self.level]
 
+        # tile size = is level big and zoomed out
+        self.current_tile_size = TILE_SIZE
+        if self.level in LEVEL_ZOOMED_OUT:
+            self.current_tile_size = TILE_SIZE_BIG_LEVEL
+
         #get display surface
         self.display_surface = pygame.display.get_surface()
         self.all_sprites = YSortGroup()
@@ -23,6 +28,7 @@ class Core:
         self._reset(self.level)
         self.main_menu = True
         self.play_win = True
+
 
     def _reset(self, level):
         """
@@ -42,7 +48,7 @@ class Core:
          # add music to the level
         play_music(f"level{level}.mp3")
 
-        self.all_sprites.scale(TILE_SIZE, TILE_SIZE)
+        self.all_sprites.scale(self.current_tile_size, self.current_tile_size)
 
     def next_level(self):
         max_level = len(LEVEL_PLAYER_ID_MAP) - 1
@@ -131,7 +137,7 @@ class Core:
         tmx_data = load_pygame(path_to_level)
         #tmx_data.objectgroups
         for x,y,surface in tmx_data.get_layer_by_name('Ground').tiles():
-            Tile(self.all_sprites, surface, calculate_position(x,y), 'ground', y)
+            Tile(self.all_sprites, surface, calculate_position(x,y, self.current_tile_size), 'ground', y)
             self.ground_map[(x, y)] = True
 
         obj_xy_array = load_object_map(path_to_objects)
@@ -140,9 +146,9 @@ class Core:
             if obj_id == -1:
                 continue
             elif obj_id == self.player_obj_id:
-                self.player_character = Player_Character(self.all_sprites, (x, y), 'object', self.obj_map, self.ground_map, self.all_sprites, y, obj_id)
+                self.player_character = Player_Character(self.all_sprites, (x, y), 'object', self.obj_map, self.ground_map, self.all_sprites, y, obj_id, self.current_tile_size)
             else:
-                self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y, 'object')
+                self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y, 'object', self.current_tile_size)
     
     def display_hud(self):
 

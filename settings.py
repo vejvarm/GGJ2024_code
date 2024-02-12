@@ -1,6 +1,6 @@
 import pathlib
 
-DEFAULT_LEVEL = 0
+DEFAULT_LEVEL = 4
 
 ROOT = pathlib.Path("./")
 
@@ -17,6 +17,10 @@ CONTROLS_TEXT_POS = ( 200, 100 )
 
 #tile size
 TILE_SIZE = 96
+TILE_SIZE_BIG_LEVEL = 64
+
+# big levels with tiles smaller size
+LEVEL_ZOOMED_OUT = (4, 5, 6)
 
 FPS = 30
 
@@ -47,6 +51,11 @@ OBJECTS = {
     12: ('tree', 0),
     13: ('wall1', 0),
     14: ('wall2', 0),
+    15: ('boar', 1),
+    16: ('door', 0),
+    17: ('oar', 1),
+    18: ('shore', 0),
+    19: ('floor', 0),
 }
 OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
 
@@ -54,6 +63,8 @@ OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
 # but can be combined so they are also on the object map but invisible
 OBJECTS_INVISIBLE = {
     'sea',
+    'shore',
+    'floor'
 }
 
 # objects that are more than 1 tile
@@ -68,7 +79,7 @@ LEVEL_PLAYER_ID_MAP = {
     1: 0,  # bear
     2: 0,  # bear
     3: 1,  # bee
-    4: 0,  # bear
+    4: 15,  # boar    
 }
 
 # objects that can be combined
@@ -88,6 +99,11 @@ OBJECT_COMBINATIONS = {
     12: (1, 6, 9),
     13: tuple(),
     14: tuple(),
+    15: (16, 17, 18, 19),
+    16: (15, 17, 18, 19),
+    17: (15, 16, 18, 19),
+    18: (15, 16, 17, 19),
+    19: (15, 16, 17, 18),
 }
 
 # how many combinaitons to win level
@@ -104,7 +120,7 @@ LEVEL_BACKGROUND = {
     1: '2c2512',
     2: '183b18', 
     3: '0689b4',
-    4: '183b18',
+    4: '0689b4',
 }
 # 7b5825
 
@@ -113,5 +129,5 @@ LEVEL_NAMES = {
     1: 'Self',
     2: 'Big ass car', 
     3: 'Desert island',  
-    4: 'sdf'  
+    4: 'She sells sea shells on a ...'  
 }

@@ -8,13 +8,14 @@ from support import calculate_position
 from collections import namedtuple
 
 class Player_Character(pygame.sprite.Sprite):
-    def __init__(self, groups, pos: tuple[int, int], z, object_map, ground_map, all_sprites, y_order, obj_class_id: int):
+    def __init__(self, groups, pos: tuple[int, int], z, object_map, ground_map, all_sprites, y_order, obj_class_id: int, tile_size = TILE_SIZE):
         super().__init__(groups)
         path_to_image = OBJECTS_FOLDER.joinpath(f"{obj_class_id}.png")
         self.image = pygame.image.load(path_to_image)
         self.type = OBJECTS[obj_class_id]
         self.z = LAYERS[z]
-        self.grid_position = {'x': pos[0], 'y': pos[0]}
+        self.grid_position = {'x': pos[0], 'y': pos[1]}
+        self.tile_size = tile_size
         self.draw_position = self.update_player_position()
         self.object_map = object_map
         self.ground_map = ground_map
@@ -31,10 +32,11 @@ class Player_Character(pygame.sprite.Sprite):
         self.text_message = ''
         self.reset_level = False
         self.obj_to_hide = []
+        
 
 
     def update_player_position(self):
-        position = calculate_position(self.grid_position['x'], self.grid_position['y'])
+        position = calculate_position(self.grid_position['x'], self.grid_position['y'], self.tile_size)
         self.rect = self.image.get_rect(topleft=position)
         self.y_order = self.grid_position['y'] + self.grid_position['x'] / 100
         return position
@@ -87,12 +89,18 @@ class Player_Character(pygame.sprite.Sprite):
                         self.font_on_screen = True
                     self.y_order = 9001
                     if obj_b not in OBJECTS_INVISIBLE:                    
-                        self.draw_position = (self.draw_position[0], self.draw_position[1] - TILE_SIZE / 4)
+                        self.draw_position = (self.draw_position[0], self.draw_position[1] - self.tile_size / 4)
                     else:
                         self.draw_position = (self.draw_position[0], self.draw_position[1])
                     self.rect = self.image.get_rect(topleft=self.draw_position)
                     return
-                # check object can be moved = type[1] == "1"
+                
+                # TODO
+                # check if is invisible (sea, floor, shore ...) = can be walked on
+                #if self.object_map[to_position].type[0] in OBJECTS_INVISIBLE:
+                  
+
+                # check object can be moved = type[1] == "1"                
                 if self.object_map[to_position].type[1] == 1:
                     # check if object can be moved - is there edge of level
                     pos_direction_vector = (to_position[0] - from_position[0], to_position[1] - from_position[1])
@@ -178,7 +186,7 @@ class Player_Character(pygame.sprite.Sprite):
             else:
                 self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                 self.draw_position = self.update_player_position()
-        # print(self.combined_objects)
+        
 
     def combine_oversized_object(self, obj_id):  
   
