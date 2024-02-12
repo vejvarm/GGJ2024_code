@@ -30,6 +30,9 @@
     - boar on a shore (other end of level 4)
     
     9 Fix: combining 2 objects at once
+    9 Fix: combining with wall in level 4
+    
+    7 Fix: combining puck on a truck on a duck (not a bug?)
 
     6 enemy that follows you (on move or moves once in 2 seconds for example)
     - on move probably more fun and easier to do
