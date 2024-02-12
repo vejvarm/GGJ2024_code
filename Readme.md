@@ -22,13 +22,14 @@
 - number = priority
 
 ## Want to do for sure
-    
-    10 Correct loading of next level
+
     10 Win Songs:    
     - bear on a pear (end of level 1)
     - bee on a sea (end of level 3)
     - boar on a floor (end of level 4)
     - boar on a shore (other end of level 4)
+    
+    9 Fix: combining 2 objects at once
 
     6 enemy that follows you (on move or moves once in 2 seconds for example)
     - on move probably more fun and easier to do

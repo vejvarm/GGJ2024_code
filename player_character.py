@@ -70,7 +70,7 @@ class Player_Character(pygame.sprite.Sprite):
     def move_player(self, from_position, to_position):
         from_position = (from_position['x'], from_position['y'])
         # check level exists = can't go outside of level
-        if to_position in self.ground_map.keys():           
+        if to_position in self.ground_map.keys():
             # check object exists where we're moving
             if to_position in self.object_map.keys():                
                 # check if object combines with player
@@ -141,6 +141,9 @@ class Player_Character(pygame.sprite.Sprite):
                                     # hide objects
                                     self.obj_to_hide.append(self.object_map.pop(beyond_object_pos))                                    
                             #return
+                        elif self.object_map[beyond_object_pos].type[1] in (0, 3):
+                            # can't combine and beyond object is immovable
+                            pass
                         else:
                             # cant combine and both objects are movable, move both
                             # is there space to move beyond second object

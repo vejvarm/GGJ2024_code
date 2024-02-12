@@ -1,6 +1,6 @@
 import pathlib
 
-DEFAULT_LEVEL = 0
+DEFAULT_LEVEL = 4
 
 ROOT = pathlib.Path("./")
 
@@ -32,8 +32,8 @@ LAYERS = {
 }
 
 # list of all objecs
-# 1 = movable, can be pushed
 # 0 = can't be pushed
+# 1 = movable, can be pushed
 # 3 = not movable but can be walked on (e.g. floor)
 OBJECTS = {
     -1: ('empty', 0),
@@ -46,7 +46,7 @@ OBJECTS = {
     6: ('flea', 1),
     7: ('pear', 1),
     8: ('puck', 1),
-    9: ('sea', 0),
+    9: ('sea', 3),
     10: ('shelf',1),
     11: ('truck-back', 0),
     12: ('tree', 0),
@@ -55,7 +55,7 @@ OBJECTS = {
     15: ('boar', 1),
     16: ('door', 0),
     17: ('oar', 1),
-    18: ('shore', 0),
+    18: ('shore', 3),
     19: ('floor', 3),
 }
 OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
