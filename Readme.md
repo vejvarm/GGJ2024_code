@@ -16,6 +16,7 @@
     - 2 objects in a row can be pushed
     - fail message says how many combined and what happened
     - floor tiles can be combined with - settings: TILES, TILE_COMBINATIONS (this works only on player for now, not objects)
+    - !!! level 4 csv were written manually, don't export and don't overwrite the files
 
 # Todo list
 - number = priority
