@@ -70,7 +70,7 @@ class Player_Character(pygame.sprite.Sprite):
     def move_player(self, from_position, to_position):
         from_position = (from_position['x'], from_position['y'])
         # check level exists = can't go outside of level
-        if to_position in self.ground_map.keys():
+        if to_position in self.ground_map.keys():           
             # check object exists where we're moving
             if to_position in self.object_map.keys():                
                 # check if object combines with player
@@ -85,7 +85,7 @@ class Player_Character(pygame.sprite.Sprite):
                     # draw player on top of object
                     self.is_combined = True
                     if not self.winner:
-                        self.text_message = f'{obj_a} on a {obj_b}' + "... FAILED: you're on a thing but not all things are on things!"
+                        self.text_message = "You're a " + f'{obj_a} on a {obj_b}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])
                         self.font_on_screen = True
                     self.y_order = 9001
                     if obj_b not in OBJECTS_INVISIBLE:                    
@@ -93,23 +93,19 @@ class Player_Character(pygame.sprite.Sprite):
                     else:
                         self.draw_position = (self.draw_position[0], self.draw_position[1])
                     self.rect = self.image.get_rect(topleft=self.draw_position)
-                    return
+                    #return
                 
-                # TODO
-                # check if is invisible (sea, floor, shore ...) = can be walked on
-                #if self.object_map[to_position].type[0] in OBJECTS_INVISIBLE:
-                  
-
                 # check object can be moved = type[1] == "1"                
-                if self.object_map[to_position].type[1] == 1:
+                elif self.object_map[to_position].type[1] == 1:
                     # check if object can be moved - is there edge of level
                     pos_direction_vector = (to_position[0] - from_position[0], to_position[1] - from_position[1])
                     beyond_object_pos = (to_position[0] + pos_direction_vector[0], to_position[1] + pos_direction_vector[1])
                     if beyond_object_pos not in self.ground_map.keys():
                         # cant move, no map
-                        return
+                        pass
+                        #return
                         # check if object can be moved - is there another object
-                    if beyond_object_pos in self.object_map.keys():
+                    elif beyond_object_pos in self.object_map.keys():
                         # or another object then check if it can be combined
                         obj_a = self.object_map[beyond_object_pos].type[0]
                         obj_b = self.object_map[to_position].type[0]
@@ -144,7 +140,7 @@ class Player_Character(pygame.sprite.Sprite):
                                     self.font_on_screen = True
                                     # hide objects
                                     self.obj_to_hide.append(self.object_map.pop(beyond_object_pos))                                    
-                            return
+                            #return
                         else:
                             # cant combine and both objects are movable, move both
                             # is there space to move beyond second object
@@ -169,14 +165,14 @@ class Player_Character(pygame.sprite.Sprite):
                                         self.text_message = f'{obj_a} on a {obj_b}'
                                         self.font_on_screen = True
                                                                               
-                                    return    
+                                    #return    
                                 else:
                                     #move to empty space     
                                     self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                                     self.draw_position = self.update_player_position()
                                     self.update_object_position(beyond_object_pos, to_position, False, False)
                                     self.update_object_position(to_position, from_position, False, False)                                                  
-                            return
+                            #return
                     else:
                         # if not combining and movable, move player and object
                         self.grid_position = {'x': to_position[0], 'y': to_position[1]}
@@ -184,9 +180,34 @@ class Player_Character(pygame.sprite.Sprite):
                         # and move object and update object map
                         self.update_object_position(to_position, from_position, False, False)
             else:
+                #move normally
                 self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                 self.draw_position = self.update_player_position()
         
+            self.check_player_on_tile(to_position)
+
+    def check_player_on_tile(self, to_position):
+        # check if tile can be combined with player (board on a floor)
+        if self.tile_and_object_can_be_combined(self.ground_map[to_position], self.type[0]):
+            self.combined_objects += 1
+            self.is_combined = True
+            self.winner = self.level_win_conditions_met()
+            self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+            self.draw_position = self.update_player_position()
+            if not self.winner:
+                self.text_message = "You're a " + f'{self.type[0]} on a {TILES[self.ground_map[to_position]][0]}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])                    
+            else:
+                self.text_message = f'{self.type[0]} on a ...'
+
+            self.font_on_screen = True
+            self.y_order = 9001
+            self.draw_position = (self.draw_position[0], self.draw_position[1] - self.tile_size / 4)
+            self.rect = self.image.get_rect(topleft=self.draw_position)
+
+            #if was pushing object, move that object
+
+
+
 
     def combine_oversized_object(self, obj_id):  
   
@@ -251,6 +272,13 @@ class Player_Character(pygame.sprite.Sprite):
         obj_b_id = OBJECT_NAME_MAP[obj_b]
 
         if obj_b_id in OBJECT_COMBINATIONS[obj_a_id]:
+            return True
+        else:
+            return False
+
+    def tile_and_object_can_be_combined(self, tile_id, obj_name):
+        obj_id = OBJECT_NAME_MAP[obj_name]
+        if obj_id in TILE_COMBINATIONS[tile_id]:
             return True
         else:
             return False

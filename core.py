@@ -118,7 +118,7 @@ class Core:
                 play_music('win.mp3')
                 self.play_win = False            
             self.all_sprites.custom_draw(self.player_character)
-            font_rend = self.player_character.font.render(f'...? You tell me ;)', False, 'White')
+            font_rend = self.player_character.font.render(f'...? You tell me ;) LEVEL COMPLETE!', False, 'White')
             font_rect = font_rend.get_rect(center = self.player_character.draw_position)
             pygame.draw.rect(self.display_surface, 'Black', font_rect)
             self.display_surface.blit(font_rend, font_rect)
@@ -134,13 +134,11 @@ class Core:
     def load_level(self, level):
         path_to_level = MAPS_FOLDER.joinpath(f"level{level}.tmx")
         path_to_objects = MAPS_FOLDER.joinpath(f"level{level}_Objects.csv")
-        tmx_data = load_pygame(path_to_level)
-        #tmx_data.objectgroups
-        for x,y,surface in tmx_data.get_layer_by_name('Ground').tiles():
-            Tile(self.all_sprites, surface, calculate_position(x,y, self.current_tile_size), 'ground', y)
-            self.ground_map[(x, y)] = True
-
+        path_to_ground = MAPS_FOLDER.joinpath(f"level{level}_Ground.csv")
+        tmx_data = load_pygame(path_to_level)            
         obj_xy_array = load_object_map(path_to_objects)
+        grnd_xy_array = load_object_map(path_to_ground)
+        #object map with object ids
         for (x, y), id_str in obj_xy_array.items():
             obj_id = int(id_str)
             if obj_id == -1:
@@ -149,6 +147,13 @@ class Core:
                 self.player_character = Player_Character(self.all_sprites, (x, y), 'object', self.obj_map, self.ground_map, self.all_sprites, y, obj_id, self.current_tile_size)
             else:
                 self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y, 'object', self.current_tile_size)
+        #load tile ids from csv
+        for (x, y), id_str in grnd_xy_array.items():
+            self.ground_map[(x, y)] = int(id_str)            
+        #ground map with tile ids
+        for x, y, surface in tmx_data.get_layer_by_name('Ground').tiles():
+            Tile(self.all_sprites, surface, calculate_position(x,y, self.current_tile_size), 'ground', y)
+            self.ground_map[(x, y)] = self.ground_map[(x, y)] # tile id   
     
     def display_hud(self):
 

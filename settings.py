@@ -34,6 +34,7 @@ LAYERS = {
 # list of all objecs
 # 1 = movable, can be pushed
 # 0 = can't be pushed
+# 3 = not movable but can be walked on (e.g. floor)
 OBJECTS = {
     -1: ('empty', 0),
     0: ('bear', 1),
@@ -55,7 +56,7 @@ OBJECTS = {
     16: ('door', 0),
     17: ('oar', 1),
     18: ('shore', 0),
-    19: ('floor', 0),
+    19: ('floor', 3),
 }
 OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
 
@@ -66,6 +67,41 @@ OBJECTS_INVISIBLE = {
     'shore',
     'floor'
 }
+
+# tiles that can be walked on but can also be combined with
+# floor = id (6,7,8)
+TILE_COMBINATIONS = {
+    0: tuple(),    
+    1: tuple(),    
+    2: tuple(),    
+    3: tuple(),    
+    4: tuple(),    
+    5: tuple(),    
+    6: (15, 16, 17), 
+    7: (15, 16, 17), 
+    8: (15, 16, 17), 
+    9: tuple(),    
+    10: tuple(),    
+    11: tuple(), 
+    12: tuple(), 
+    13: tuple(),     
+}
+
+# 1 = can be combined
+TILES = {
+    0: ('grass', 0),    
+    1: ('grass', 0),    
+    2: ('grass', 0),    
+    3: ('sand', 0),    
+    4: ('sand', 0),    
+    5: ('sand', 0),    
+    6: ('floor', 1), 
+    7: ('floor', 1), 
+    8: ('floor', 1), 
+    9: ('grass', 0),    
+    10: ('grass', 0),  
+}
+TILE_NAME_MAP = {v[0]: k for k, v in TILES.items()}
 
 # objects that are more than 1 tile
 # name, ids to combine
