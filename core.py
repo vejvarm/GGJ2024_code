@@ -15,8 +15,6 @@ class Core:
 
         # tile size = is level big and zoomed out
         self.current_tile_size = TILE_SIZE
-        if self.level in LEVEL_ZOOMED_OUT:
-            self.current_tile_size = TILE_SIZE_BIG_LEVEL
 
         #get display surface
         self.display_surface = pygame.display.get_surface()
@@ -29,7 +27,6 @@ class Core:
         self.main_menu = True
         self.play_win = True
 
-
     def _reset(self, level):
         """
         :param player_obj_id: which object is movable py Player
@@ -38,9 +35,13 @@ class Core:
         self.obj_map = {}
         self.ground_map = {}
         self.level = level
+        # zoom out larger levels
+        if self.level in LEVEL_ZOOMED_OUT:
+            self.current_tile_size = TILE_SIZE_BIG_LEVEL
+
         self.player_obj_id = LEVEL_PLAYER_ID_MAP[self.level]
         self.all_sprites.empty()
-        self.load_level(level) 
+        self.load_level(level)
         self.player_character.current_level = self.level
         self.player_character.combined_objects = 0
         self.player_character.winner = False 
@@ -52,10 +53,9 @@ class Core:
 
     def next_level(self):
         max_level = len(LEVEL_PLAYER_ID_MAP) - 1
-        #self.level = min(max_level - 1, self.level + 1)
         self.level += 1
         self.player_character.current_level = self.level
-        if self.level == max_level:
+        if self.level > max_level:
             self.level = 0
         self._reset(self.level)
 
