@@ -22,9 +22,6 @@
 
 ## Want to do for sure
     
-    9 d-pad picture for controls instead of A W S D letters (show a picture top right)
-    8 clean up the code and remove unnecessary stuff
-
     10 Correct loading of next level
     10 Win Songs:    
     - bear on a pear (end of level 1)
@@ -34,6 +31,9 @@
 
     6 enemy that follows you (on move or moves once in 2 seconds for example)
     - on move probably more fun and easier to do
+
+    9 d-pad picture for controls instead of A W S D letters (show a picture top right)
+    5 clean up the code and remove unnecessary stuff
 
 ## Probably canceled:    
     2 other sounds
