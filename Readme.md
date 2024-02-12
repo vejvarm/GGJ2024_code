@@ -35,6 +35,8 @@
     9 d-pad picture for controls instead of A W S D letters (show a picture top right)
     5 clean up the code and remove unnecessary stuff
 
+    10 Add "game complete" screen with credits and send us feedbakc at email
+
 ## Probably canceled:    
     2 other sounds
     - 2 sound effects for moving, pushing and combining
