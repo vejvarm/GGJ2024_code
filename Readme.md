@@ -18,10 +18,9 @@
     6 animaiton for enemy that follows you
     3 animation for all objects
     2 sound effects for moving, pushing and combining
-    9 song for different win states
+    9 song for different win states: 
     9 enemy that follows you (on move or moves once in 2 seconds for example)
     1 somehow comunicate that main character's name is FeeFee
-    5 show keys on edges of screen
     0 port this whole thing on android
 
 ## Bugs
@@ -38,6 +37,14 @@
     - door
     - shore
 
+### Win state sogs
+
+    Done:
+    - bear on a chair
+
+    To do:
+    - bee on a sea
+
 ## Ideas for Other mechanics
 
     - compound words (bookshelf + elf = book)
@@ -49,18 +56,6 @@
     - player is a compound word, has to "degrade itself" twice
 
 ## Ideas for levels
-
-### LEVEL 0
-
-    - elf on a shelf, bear on a chair
-
-### LEVEL 1
-
-    - duck on a puck, bear ona pair
-
-### LEVEL 2 
-
-    - puck and duck on truck, bear on a chair
 
 ### LEVEL 3 
 

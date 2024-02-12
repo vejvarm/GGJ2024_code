@@ -64,27 +64,10 @@ class Core:
 
     def run(self, dt, event):
         #title screen
-        if self.main_menu == True:
-            custom_font = pygame.font.Font(None, 66)
-            font_rend = custom_font.render('But have you heard of ...?', True, (100, 100, 100))
-            font_rect = font_rend.get_rect(topleft = (10, 10))
-            pygame.draw.rect(self.display_surface, 'Black', font_rect)
-            self.display_surface.blit(font_rend, font_rect)
-
-            font_rend2 = self.player_character.font.render('a game by Martin, Chan and Filip', False, 'White')
-            font_rect2 = font_rend2.get_rect(topleft = (10, 120))
-            pygame.draw.rect(self.display_surface, 'Black', font_rect2)
-            self.display_surface.blit(font_rend2, font_rect2)
-
-            font_rend3 = self.player_character.font.render('Controls: arrow keys, space to continue, R to reset level', False, 'White')
-            font_rect3 = font_rend3.get_rect(topleft = (10, 220))
-            pygame.draw.rect(self.display_surface, 'Black', font_rect3)
-            self.display_surface.blit(font_rend3, font_rect3)
-
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_SPACE]:
-                self.main_menu = False
+        if self.main_menu == True:            
+            self.display_title_screen()
             return
+        
         #reseting level
         if self.player_character.reset_level:
             self.reset_level()
@@ -142,18 +125,8 @@ class Core:
 
                         #check that all combinations are done
                         #resets
-                
-        #display level number
-        font_level_status = self.player_character.font.render('Level: ' + str(self.level + 1) + ' ' + LEVEL_NAMES[self.level], False, 'White')
-        font_level_status_rect = font_level_status.get_rect(topleft = (10, 10))
-        pygame.draw.rect(self.display_surface, 'Black', font_level_status_rect)
-        self.display_surface.blit(font_level_status, font_level_status_rect)
 
-        #display number of combined objects
-        font_rend = self.player_character.font.render('Objects combined: ' + str(self.player_character.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.level]), False, 'White')
-        font_rect = font_rend.get_rect(topleft = (10, 40))
-        pygame.draw.rect(self.display_surface, 'Black', font_rect)
-        self.display_surface.blit(font_rend, font_rect)
+        self.display_hud()        
 
     def load_level(self, level):
         path_to_level = MAPS_FOLDER.joinpath(f"level{level}.tmx")
@@ -174,6 +147,57 @@ class Core:
             else:
                 self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y, 'object')
     
+    def display_hud(self):
+
+        #display level number
+        font_level_status = self.player_character.font.render('Level: ' + str(self.level + 1) + ' ' + LEVEL_NAMES[self.level], False, 'White')
+        font_level_status_rect = font_level_status.get_rect(topleft = (10, 10))
+        pygame.draw.rect(self.display_surface, 'Black', font_level_status_rect)
+        self.display_surface.blit(font_level_status, font_level_status_rect)
+
+        #display number of combined objects
+        font_rend = self.player_character.font.render('Objects combined: ' + str(self.player_character.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.level]), False, 'White')
+        font_rect = font_rend.get_rect(topleft = (10, 40))
+        pygame.draw.rect(self.display_surface, 'Black', font_rect)
+        self.display_surface.blit(font_rend, font_rect)
+
+        #display control keys
+        font_rend = self.player_character.font_big.render('A', False, 'black')
+        font_rect = font_rend.get_rect(topleft = (CONTROLS_TEXT_POS[0], CONTROLS_TEXT_POS[1]))
+        self.display_surface.blit(font_rend, font_rect)
+
+        font_rend = self.player_character.font_big.render('W', False, 'black')
+        font_rect = font_rend.get_rect(topleft = (DISPLAY_WIDTH - CONTROLS_TEXT_POS[0], CONTROLS_TEXT_POS[1]))
+        self.display_surface.blit(font_rend, font_rect)
+
+        font_rend = self.player_character.font_big.render('S', False, 'black')
+        font_rect = font_rend.get_rect(topleft = (DISPLAY_WIDTH - CONTROLS_TEXT_POS[0], DISPLAY_HEIGHT - CONTROLS_TEXT_POS[1]))
+        self.display_surface.blit(font_rend, font_rect)
+
+        font_rend = self.player_character.font_big.render('D', False, 'black')
+        font_rect = font_rend.get_rect(topleft = (CONTROLS_TEXT_POS[0], DISPLAY_HEIGHT - CONTROLS_TEXT_POS[1]))
+        self.display_surface.blit(font_rend, font_rect)
+    
+    def display_title_screen(self):
+        font_rend = self.player_character.font_big.render('But have you heard of ...?', True, (100, 100, 100))
+        font_rect = font_rend.get_rect(topleft = (10, 10))
+        pygame.draw.rect(self.display_surface, 'Black', font_rect)
+        self.display_surface.blit(font_rend, font_rect)
+
+        font_rend2 = self.player_character.font.render('a game by Martin, Chan and Filip', False, 'White')
+        font_rect2 = font_rend2.get_rect(topleft = (10, 120))
+        pygame.draw.rect(self.display_surface, 'Black', font_rect2)
+        self.display_surface.blit(font_rend2, font_rect2)
+
+        font_rend3 = self.player_character.font.render('Controls: arrow keys, space to continue, R to reset level', False, 'White')
+        font_rect3 = font_rend3.get_rect(topleft = (10, 220))
+        pygame.draw.rect(self.display_surface, 'Black', font_rect3)
+        self.display_surface.blit(font_rend3, font_rect3)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            self.main_menu = False
+
 class YSortGroup(pygame.sprite.Group):
     def __init__(self):
         super().__init__()

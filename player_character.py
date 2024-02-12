@@ -22,6 +22,7 @@ class Player_Character(pygame.sprite.Sprite):
         self.y_order = y_order
         self.display_surface = pygame.display.get_surface()
         self.font = pygame.font.Font(None, 30)
+        self.font_big = pygame.font.Font(None, 66)
         self.font_on_screen = False
         self.winner = False
         self.combined_objects = 0
@@ -45,17 +46,17 @@ class Player_Character(pygame.sprite.Sprite):
         dy = 0
         move = False
         if event is not None and event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
+            if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                 dx += 1
                 move = True
-            if event.key == pygame.K_LEFT:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 dx -= 1
                 move = True
                 # self.move_player(self.grid_position, (self.grid_position['x']-1, self.grid_position['y']))
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP or event.key == pygame.K_w:
                 dy -= 1
                 move = True
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                 dy += 1
                 move = True
             if event.key == pygame.K_r:

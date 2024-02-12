@@ -10,6 +10,8 @@ AUDIO_FOLDER = ROOT.joinpath("assets/audio")
 DISPLAY_WIDTH = 1600
 DISPLAY_HEIGHT = 800
 
+CONTROLS_TEXT_POS = ( 350, 100 )
+
 #tile size
 TILE_SIZE = 96
 
