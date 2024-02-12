@@ -1,16 +1,19 @@
 import pathlib
 
+DEFAULT_LEVEL = 0
+
 ROOT = pathlib.Path("./")
 
 MAPS_FOLDER = ROOT.joinpath("assets/Maps")
 OBJECTS_FOLDER = ROOT.joinpath("assets/objects")
 AUDIO_FOLDER = ROOT.joinpath("assets/audio")
+SCREENS_FOLDER = ROOT.joinpath("assets/screens")
 
 #display resolution
-DISPLAY_WIDTH = 1600
+DISPLAY_WIDTH = 1200
 DISPLAY_HEIGHT = 800
 
-CONTROLS_TEXT_POS = ( 350, 100 )
+CONTROLS_TEXT_POS = ( 200, 100 )
 
 #tile size
 TILE_SIZE = 96
@@ -24,13 +27,9 @@ LAYERS = {
     'player': 2
 }
 
-#player character stats
-player_character_stats = {
-    'player_character_1': {'strength': 3, 'endurance': 5, 'intelligence': 1, 'spirit': 1, 'dexterity': 2, 'luck': 0,
-                    'health': 50, 'mana': 10, 'exp': 0, 'speed': 160}
-    }
-
-#1 = movable
+# list of all objecs
+# 1 = movable, can be pushed
+# 0 = can't be pushed
 OBJECTS = {
     -1: ('empty', 0),
     0: ('bear', 1),
@@ -49,6 +48,7 @@ OBJECTS = {
     13: ('wall1', 0),
     14: ('wall2', 0),
 }
+OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
 
 # objects that are displayed as tiles under the player character
 # but can be combined so they are also on the object map but invisible
@@ -56,24 +56,22 @@ OBJECTS_INVISIBLE = {
     'sea',
 }
 
-# name, ids to combine, number of combined
+# objects that are more than 1 tile
+# name, ids to combine
 OBJECTS_OVERSIZED = {
     0: ('truck', (2,11)),
 }        
 
-OBJECT_NAME_MAP = {v[0]: k for k, v in OBJECTS.items()}
-
-# TODO: check for truck-front and truck-back
-
-#change to not hook
-DEFAULT_LEVEL = 3
+# who is the player
 LEVEL_PLAYER_ID_MAP = {
     0: 0,  # bear
     1: 0,  # bear
     2: 0,  # bear
     3: 1,  # bee
+    4: 0,  # bear
 }
 
+# objects that can be combined
 OBJECT_COMBINATIONS = {
     0: (7, 3),
     1: (6, 9, 12),
@@ -92,12 +90,13 @@ OBJECT_COMBINATIONS = {
     14: tuple(),
 }
 
-
+# how many combinaitons to win level
 LEVEL_WIN_CONDITION = {
     0: 2,  # two combinations
     1: 2,  # two combinations
     2: 3,  # three combinations
     3: 3,  
+    4: 4,
 }
 
 LEVEL_BACKGROUND = {
@@ -105,12 +104,14 @@ LEVEL_BACKGROUND = {
     1: '2c2512',
     2: '183b18', 
     3: '0689b4',
-    4: '7b5825',
+    4: '183b18',
 }
+# 7b5825
 
 LEVEL_NAMES = {
     0: 'Elf',    
     1: 'Self',
     2: 'Big ass car', 
-    3: 'Desert island',    
+    3: 'Desert island',  
+    4: 'sdf'  
 }

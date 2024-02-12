@@ -18,7 +18,7 @@
     6 animaiton for enemy that follows you
     3 animation for all objects
     2 sound effects for moving, pushing and combining
-    9 song for different win states: 
+    9 song for different win states: bear on a pear, bee on a sea
     9 enemy that follows you (on move or moves once in 2 seconds for example)
     1 somehow comunicate that main character's name is FeeFee
     0 port this whole thing on android
@@ -43,6 +43,7 @@
     - bear on a chair
 
     To do:
+    - bear on a pear
     - bee on a sea
 
 ## Ideas for Other mechanics

@@ -123,9 +123,6 @@ class Core:
                 self.play_win = True
                 self.next_level()
 
-                        #check that all combinations are done
-                        #resets
-
         self.display_hud()        
 
     def load_level(self, level):
@@ -152,22 +149,24 @@ class Core:
         #display level number
         font_level_status = self.player_character.font.render('Level: ' + str(self.level + 1) + ' ' + LEVEL_NAMES[self.level], False, 'White')
         font_level_status_rect = font_level_status.get_rect(topleft = (10, 10))
-        pygame.draw.rect(self.display_surface, 'Black', font_level_status_rect)
+        #bg under text:
+        #pygame.draw.rect(self.display_surface, 'Black', font_level_status_rect)
         self.display_surface.blit(font_level_status, font_level_status_rect)
 
         #display number of combined objects
         font_rend = self.player_character.font.render('Objects combined: ' + str(self.player_character.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.level]), False, 'White')
         font_rect = font_rend.get_rect(topleft = (10, 40))
-        pygame.draw.rect(self.display_surface, 'Black', font_rect)
+        #bg under text:
+        #pygame.draw.rect(self.display_surface, 'Black', font_rect)
         self.display_surface.blit(font_rend, font_rect)
 
         #display control keys
         font_rend = self.player_character.font_big.render('A', False, 'black')
-        font_rect = font_rend.get_rect(topleft = (CONTROLS_TEXT_POS[0], CONTROLS_TEXT_POS[1]))
+        font_rect = font_rend.get_rect(topleft = (CONTROLS_TEXT_POS[0], CONTROLS_TEXT_POS[1] + CONTROLS_TEXT_POS[1] / 2))
         self.display_surface.blit(font_rend, font_rect)
 
         font_rend = self.player_character.font_big.render('W', False, 'black')
-        font_rect = font_rend.get_rect(topleft = (DISPLAY_WIDTH - CONTROLS_TEXT_POS[0], CONTROLS_TEXT_POS[1]))
+        font_rect = font_rend.get_rect(topleft = (DISPLAY_WIDTH - CONTROLS_TEXT_POS[0], CONTROLS_TEXT_POS[1] + CONTROLS_TEXT_POS[1] / 2))
         self.display_surface.blit(font_rend, font_rect)
 
         font_rend = self.player_character.font_big.render('S', False, 'black')
@@ -179,6 +178,7 @@ class Core:
         self.display_surface.blit(font_rend, font_rect)
     
     def display_title_screen(self):
+        '''
         font_rend = self.player_character.font_big.render('But have you heard of ...?', True, (100, 100, 100))
         font_rect = font_rend.get_rect(topleft = (10, 10))
         pygame.draw.rect(self.display_surface, 'Black', font_rect)
@@ -193,6 +193,9 @@ class Core:
         font_rect3 = font_rend3.get_rect(topleft = (10, 220))
         pygame.draw.rect(self.display_surface, 'Black', font_rect3)
         self.display_surface.blit(font_rend3, font_rect3)
+        '''
+        image = pygame.image.load(SCREENS_FOLDER.joinpath('title_screen.jpg'))
+        self.display_surface.blit(image, (0, 0))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
