@@ -101,7 +101,7 @@ class Player_Character(pygame.sprite.Sprite):
                     pos_direction_vector = (to_position[0] - from_position[0], to_position[1] - from_position[1])
                     beyond_object_pos = (to_position[0] + pos_direction_vector[0], to_position[1] + pos_direction_vector[1])
                     if beyond_object_pos not in self.ground_map.keys():
-                        # cant move, no map
+                        # can't move, no map
                         pass
                         #return
                         # check if object can be moved - is there another object
@@ -186,8 +186,13 @@ class Player_Character(pygame.sprite.Sprite):
                 #move normally
                 self.grid_position = {'x': to_position[0], 'y': to_position[1]}
                 self.draw_position = self.update_player_position()
-        
-            self.check_player_on_tile(to_position)
+
+            # Interacting with tiles
+            if to_position in self.object_map.keys() and self.object_map[to_position].type[1] == 0:
+                # target object is immovable
+                pass
+            else:
+                self.check_player_on_tile(to_position)
 
     def check_player_on_tile(self, to_position):
         # check if tile can be combined with player (board on a floor)
@@ -245,7 +250,7 @@ class Player_Character(pygame.sprite.Sprite):
         return False
 
     def level_win_conditions_met(self):
-        if LEVEL_WIN_CONDITION[self.current_level] == self.combined_objects:
+        if self.combined_objects >= LEVEL_WIN_CONDITION[self.current_level]:
             return True
         else:
             return False

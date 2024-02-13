@@ -1,6 +1,6 @@
 import pathlib
 
-DEFAULT_LEVEL = 4
+DEFAULT_LEVEL = 0
 
 ROOT = pathlib.Path("./")
 
@@ -95,9 +95,9 @@ TILES = {
     3: ('sand', 0),    
     4: ('sand', 0),    
     5: ('sand', 0),    
-    6: ('floor', 1), 
-    7: ('floor', 1), 
-    8: ('floor', 1), 
+    6: ('floor', 1),
+    7: ('floor', 1),
+    8: ('floor', 1),
     9: ('grass', 0),    
     10: ('grass', 0),  
 }
@@ -106,7 +106,7 @@ TILE_NAME_MAP = {v[0]: k for k, v in TILES.items()}
 # objects that are more than 1 tile
 # name, ids to combine
 OBJECTS_OVERSIZED = {
-    0: ('truck', (2,11)),
+    0: ('truck', (2, 11)),
 }        
 
 # who is the player
@@ -115,7 +115,8 @@ LEVEL_PLAYER_ID_MAP = {
     1: 0,  # bear
     2: 0,  # bear
     3: 1,  # bee
-    4: 15,  # boar    
+    4: 15,  # boar
+    100: 15,  # boar
 }
 
 # objects that can be combined
@@ -149,6 +150,7 @@ LEVEL_WIN_CONDITION = {
     2: 3,  # three combinations
     3: 3,  
     4: 4,
+    100: 2,
 }
 
 LEVEL_BACKGROUND = {
@@ -157,6 +159,7 @@ LEVEL_BACKGROUND = {
     2: '183b18', 
     3: '0689b4',
     4: '0689b4',
+    100: '0689b4',
 }
 # 7b5825
 
@@ -165,5 +168,6 @@ LEVEL_NAMES = {
     1: 'Self',
     2: 'Big ass car', 
     3: 'Desert island',  
-    4: 'She sells sea shells on a ...'  
+    4: 'She sells sea shells on a ...',
+    100: 'Debug'
 }
