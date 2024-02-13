@@ -79,12 +79,12 @@ class Core:
             self.reset_level()
             self.player_character.reset_level = False
         #regular gameplay - moving around
-        if not self.player_character.font_on_screen and not self.player_character.winner:
+        elif not self.player_character.font_on_screen and not self.player_character.winner:
             self.display_surface.fill('#' + LEVEL_BACKGROUND[self.level])
             self.all_sprites.custom_draw(self.player_character)
             self.all_sprites.update(dt, event)
         #combined 2 objects    
-        elif self.player_character.font_on_screen and not self.player_character.winner and not self.player_character.is_combined:
+        elif not self.player_character.winner and not self.player_character.is_combined:
             self.all_sprites.custom_draw(self.player_character)            
             font_rend = self.player_character.font.render(f'...{self.player_character.text_message}?', False, 'White')
             font_rect = font_rend.get_rect(center = self.player_character.draw_position)
@@ -101,7 +101,7 @@ class Core:
                         self.player_character.object_map.pop((o.grid_position['x'],o.grid_position['y']))                                                                                                                                                               
                 self.player_character.obj_to_hide = []
         #combined self and didn't win        
-        elif self.player_character.font_on_screen and not self.player_character.winner and self.player_character.is_combined:
+        elif not self.player_character.winner and self.player_character.is_combined:
             self.all_sprites.custom_draw(self.player_character)
             font_rend = self.player_character.font.render(f'{self.player_character.text_message}', False, 'White')
             font_rect = font_rend.get_rect(center = self.player_character.draw_position)
@@ -112,7 +112,7 @@ class Core:
                 self.player_character.font_on_screen = False
                 self.reset_level()
         #combined self and won -> next level        
-        elif not self.player_character.font_on_screen and self.player_character.winner:
+        elif self.player_character.winner:
             if self.play_win:
                 # play win music
                 play_music('win.mp3')
@@ -127,6 +127,7 @@ class Core:
             if keys[pygame.K_SPACE]:
                 self.player_character.combined_objects = 0
                 self.play_win = True
+                self.player_character.font_on_screen = False
                 self.next_level()
 
         self.display_hud()        
@@ -146,14 +147,13 @@ class Core:
             elif obj_id == self.player_obj_id:
                 self.player_character = Player_Character(self.all_sprites, (x, y), 'object', self.obj_map, self.ground_map, self.all_sprites, y, obj_id, self.current_tile_size)
             else:
-                self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y, 'object', self.current_tile_size)
+                self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y + x/100, 'object', self.current_tile_size)
         #load tile ids from csv
         for (x, y), id_str in grnd_xy_array.items():
-            self.ground_map[(x, y)] = int(id_str)            
+            self.ground_map[(x, y)] = int(id_str)  # tile id
         #ground map with tile ids
         for x, y, surface in tmx_data.get_layer_by_name('Ground').tiles():
-            Tile(self.all_sprites, surface, calculate_position(x,y, self.current_tile_size), 'ground', y)
-            self.ground_map[(x, y)] = self.ground_map[(x, y)] # tile id   
+            Tile(self.all_sprites, surface, calculate_position(x, y, self.current_tile_size), 'ground', y)
     
     def display_hud(self):
 

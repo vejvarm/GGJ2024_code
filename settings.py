@@ -71,6 +71,7 @@ OBJECTS_INVISIBLE = {
 # tiles that can be walked on but can also be combined with
 # floor = id (6,7,8)
 TILE_COMBINATIONS = {
+    -1: tuple(),
     0: tuple(),    
     1: tuple(),    
     2: tuple(),    

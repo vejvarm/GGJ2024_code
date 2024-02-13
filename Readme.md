@@ -23,7 +23,8 @@
 
 ## Want to do for sure
 
-    10 Fix: level stuck when combining with 'floor' tile and win condition met 
+    10 Add "game complete" screen with credits and send us feedbakc at email
+    10 Script for copying tile level to ground level (csv) 
     10 Win Songs:    
     - bear on a pear (end of level 1)
     - bee on a sea (end of level 3)
@@ -31,14 +32,13 @@
     - boar on a shore (other end of level 4)
     
     7 Fix: add text for stacking multiple objects (e.g. puck on a truck on a duck)
+    7 Fix: combining two objects at once
 
     6 enemy that follows you (on move or moves once in 2 seconds for example)
     - on move probably more fun and easier to do
 
     9 d-pad picture for controls instead of A W S D letters (show a picture top right)
     5 clean up the code and remove unnecessary stuff
-
-    10 Add "game complete" screen with credits and send us feedbakc at email
 
 ## Probably canceled:    
     2 other sounds
