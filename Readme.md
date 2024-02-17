@@ -24,10 +24,10 @@
 ## Want to do for sure
 
     10 fix delay at end screen - let song play correctly
+    7 Fix: combining two objects at once - is now fixed? because the problem was player and tile after objects combined?
+
+## for later
     10 Script for copying tile level to ground level (csv) 
-    
-    7 Fix: add text for stacking multiple objects (e.g. puck on a truck on a duck)
-    7 Fix: combining two objects at once
 
     6 enemy that follows you (on move or moves once in 2 seconds for example)
     - on move probably more fun and easier to do
