@@ -60,7 +60,7 @@
 
     - pyinstaller
     - include python dll
-    - pyinstaller --paths C:\Users\Fil\AppData\Local\Programs\Python\Python311\python311.dll --onefile code/main.py
+    - pyinstaller --paths C:\Users\Fil\AppData\Local\Programs\Python\Python311\python311.dll --onefile --noconsole code/main.py
 
 ## building and android version
 
