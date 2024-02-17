@@ -32,7 +32,7 @@ class Player_Character(pygame.sprite.Sprite):
         self.text_message = ''
         self.reset_level = False
         self.obj_to_hide = []
-
+        self.player_won_by = ''
 
     def update_player_position(self):
         position = calculate_position(self.grid_position['x'], self.grid_position['y'], self.tile_size)
@@ -92,6 +92,9 @@ class Player_Character(pygame.sprite.Sprite):
                     else:
                         self.draw_position = (self.draw_position[0], self.draw_position[1])
                     self.rect = self.image.get_rect(topleft=self.draw_position)
+
+                    #for winner music
+                    self.player_won_by = obj_b
                     #return
                 # check immovable object
                 elif self.object_map[to_position].type[1] == 0:
@@ -191,7 +194,7 @@ class Player_Character(pygame.sprite.Sprite):
             self.check_player_on_tile(to_position)
 
     def check_player_on_tile(self, to_position):
-        # check if tile can be combined with player (board on a floor)
+        # check if tile can be combined with player (boar on a floor)
         if to_position in self.object_map and self.object_map[to_position].type[1] == 0:
             return
 
@@ -206,6 +209,8 @@ class Player_Character(pygame.sprite.Sprite):
                 self.font_on_screen = True
             else:
                 self.text_message = f'{self.type[0]} on a ...'
+                #for winner music
+                self.player_won_by = TILES[self.ground_map[to_position]][0]
 
             self.y_order = 9001
             self.draw_position = (self.draw_position[0], self.draw_position[1] - self.tile_size / 4)

@@ -1,6 +1,6 @@
 import pathlib
 
-DEFAULT_LEVEL = 0
+DEFAULT_LEVEL = 4
 
 ROOT = pathlib.Path("./")
 

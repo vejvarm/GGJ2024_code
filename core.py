@@ -7,6 +7,8 @@ from object_character import Object_character
 from support import import_folder, calculate_position, load_object_map, play_music
 from pytmx.util_pygame import load_pygame
 from tile import Tile
+from sys import exit
+import time
 
 class Core:
     def __init__(self):
@@ -25,6 +27,7 @@ class Core:
         pygame.mixer.init() 
         self._reset(self.level)
         self.main_menu = True
+        self.end_screen = False
         self.play_win = True
 
     def _reset(self, level):
@@ -74,6 +77,13 @@ class Core:
             self.display_title_screen()
             return
         
+        #TODO update
+        #end screen
+        if self.end_screen:            
+            self.display_end_screen()
+            play_music('credits.mp3')  
+            return
+        
         #reseting level
         if self.player_character.reset_level:
             self.reset_level()
@@ -114,8 +124,13 @@ class Core:
         #combined self and won -> next level        
         elif self.player_character.winner:
             if self.play_win:
+                # TODO update
                 # play win music
-                play_music('win.mp3')
+                if (self.level == 4 or self.level == 3) and self.player_character.player_won_by!= '':
+                    #two different win conditions and music
+                    play_music('win' + str(self.level) + str(self.player_character.player_won_by) + '.mp3')
+                else:    
+                    play_music('win' + str(self.level) + '.mp3')
                 self.play_win = False            
             self.all_sprites.custom_draw(self.player_character)
             font_rend = self.player_character.font.render(f'...? You tell me ;) LEVEL COMPLETE!', False, 'White')
@@ -128,7 +143,11 @@ class Core:
                 self.player_character.combined_objects = 0
                 self.play_win = True
                 self.player_character.font_on_screen = False
-                self.next_level()
+                #TODO update
+                if self.level < 4:
+                    self.next_level()
+                else:
+                    self.end_screen = True    
 
         self.display_hud()        
 
@@ -211,6 +230,17 @@ class Core:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
             self.main_menu = False
+
+    def display_end_screen(self):
+            image = pygame.image.load(SCREENS_FOLDER.joinpath('end_screen.jpg'))
+            self.display_surface.blit(image, (0, 0))
+            pygame.time.delay(5000)    
+            keys = pygame.key.get_pressed()
+                    
+            if keys[pygame.K_SPACE]:
+                self.main_menu = False
+                pygame.quit()
+                exit()
 
 class YSortGroup(pygame.sprite.Group):
     def __init__(self):
