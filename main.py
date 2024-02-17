@@ -25,6 +25,11 @@ class Game:
 
     def run(self):
         while True:
+            # end main loop to display end screen
+            if self.core.end_screen:
+                break
+
+            # otherwise, run game
             ev = None
             dt = self.clock.tick(FPS)
             for event in pygame.event.get():
@@ -44,8 +49,19 @@ class Game:
             self.core.run(dt, ev)
             pygame.display.update()
 
+        # Final screen loop (wait for Space to exit)
+        self.core.display_end_screen()
+        pygame.display.update()
+        while True:
+            event = pygame.event.wait()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    pygame.quit()
+                    exit()
 
-      
 #main code
 if __name__ == '__main__':
     game = Game()

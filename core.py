@@ -76,13 +76,7 @@ class Core:
         if self.main_menu == True:            
             self.display_title_screen()
             return
-        
-        #TODO update
-        #end screen
-        if self.end_screen:            
-            self.display_end_screen()            
-            return
-        
+
         #reseting level
         if self.player_character.reset_level:
             self.reset_level()
@@ -238,13 +232,7 @@ class Core:
     def display_end_screen(self):
         image = pygame.image.load(SCREENS_FOLDER.joinpath('end_screen.jpg'))
         self.display_surface.blit(image, (0, 0))
-        play_music('credits.mp3')        
-        #TODO              
-        keys = pygame.key.get_pressed()                   
-        #if keys[pygame.K_SPACE]:                
-        #    self.main_menu = False
-        #    pygame.quit()
-        #    exit()
+        play_music('credits.mp3')
                
 
 class YSortGroup(pygame.sprite.Group):
