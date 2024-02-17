@@ -21,11 +21,6 @@
 # Todo list
 - number = priority
 
-## Want to do for sure
-
-    10 fix delay at end screen - let song play correctly
-    7 Fix: combining two objects at once - is now fixed? because the problem was player and tile after objects combined?
-
 ## for later
     10 Script for copying tile level to ground level (csv) 
 
