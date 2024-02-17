@@ -32,7 +32,6 @@
     6 enemy that follows you (on move or moves once in 2 seconds for example)
     - on move probably more fun and easier to do
 
-    9 d-pad picture for controls instead of A W S D letters (show a picture top right)
     5 clean up the code and remove unnecessary stuff
 
 ## Probably canceled:    
