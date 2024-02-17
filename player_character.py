@@ -248,7 +248,8 @@ class Player_Character(pygame.sprite.Sprite):
                         self.object_map.pop((o_pos['x'],o_pos['y']))
                     #display final text for all parts
                     #prepare message
-                    final_message = ' and '.join(names_of_parts)   
+                    final_message = 'a '    
+                    final_message += ' and a '.join(names_of_parts)   
                     self.text_message = f'{final_message} on a {values[0]}'
                     self.font_on_screen = True    
                 

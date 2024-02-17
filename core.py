@@ -137,7 +137,7 @@ class Core:
                 self.play_win = True
                 self.player_character.font_on_screen = False
                 #TODO update
-                if self.level < 0:
+                if self.level < 4:
                     self.next_level()
                 else:
                     self.end_screen = True    
