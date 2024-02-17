@@ -117,7 +117,6 @@ LEVEL_PLAYER_ID_MAP = {
     2: 0,  # bear
     3: 1,  # bee
     4: 15,  # boar
-    100: 15,  # boar
 }
 
 # objects that can be combined
@@ -149,26 +148,23 @@ LEVEL_WIN_CONDITION = {
     0: 2,  # two combinations
     1: 2,  # two combinations
     2: 3,  # three combinations
-    3: 3,  
+    3: 3,
     4: 4,
-    100: 2,
 }
 
 LEVEL_BACKGROUND = {
-    0: '183b18',    
+    0: '183b18',
     1: '2c2512',
-    2: '183b18', 
+    2: '183b18',
     3: '0689b4',
     4: '0689b4',
-    100: '0689b4',
 }
 # 7b5825
 
 LEVEL_NAMES = {
-    0: 'Elf',    
+    0: 'Elf',
     1: 'Self',
-    2: 'Big ass car', 
-    3: 'Desert island',  
+    2: 'Big ass car',
+    3: 'Desert island',
     4: 'She sells sea shells on a ...',
-    100: 'Debug'
 }
