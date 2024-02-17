@@ -191,6 +191,10 @@ class Core:
         self.display_surface.blit(font_rend, font_rect)
 
         #display control keys
+        image = pygame.image.load(SCREENS_FOLDER.joinpath('controls.png'))
+        self.display_surface.blit(image, (DISPLAY_WIDTH - image.get_width(), 10))
+
+        '''
         font_rend = self.player_character.font_big.render('A', False, 'black')
         font_rect = font_rend.get_rect(topleft = (CONTROLS_TEXT_POS[0], CONTROLS_TEXT_POS[1] + CONTROLS_TEXT_POS[1] / 2))
         self.display_surface.blit(font_rend, font_rect)
@@ -206,6 +210,7 @@ class Core:
         font_rend = self.player_character.font_big.render('D', False, 'black')
         font_rect = font_rend.get_rect(topleft = (CONTROLS_TEXT_POS[0], DISPLAY_HEIGHT - CONTROLS_TEXT_POS[1]))
         self.display_surface.blit(font_rend, font_rect)
+        '''
     
     def display_title_screen(self):
         '''
