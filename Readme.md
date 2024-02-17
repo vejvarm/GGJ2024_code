@@ -23,13 +23,8 @@
 
 ## Want to do for sure
 
-    10 Add "game complete" screen with credits and send us feedbakc at email
+    10 fix delay at end screen - let song play correctly
     10 Script for copying tile level to ground level (csv) 
-    10 Win Songs:    
-    - bear on a pear (end of level 1)
-    - bee on a sea (end of level 3)
-    - boar on a floor (end of level 4)
-    - boar on a shore (other end of level 4)
     
     7 Fix: add text for stacking multiple objects (e.g. puck on a truck on a duck)
     7 Fix: combining two objects at once
@@ -55,19 +50,7 @@
 
 ## Bugs
 
-    5 Bear's but is sticking through walls
-    2 Before you move object, if youstand behind it draw order is wrong, after you move object it's correct
-
-### Win state songs
-
-    Done:
-    - bear on a chair
-
-    To do:
-    - bear on a pear
-    - bee on a sea
-    - boar on a floor
-    - boar on a shore
+    5 Bear's butt is sticking through walls    
 
 ## Ideas for Other mechanics
 
@@ -78,26 +61,6 @@
     - multi-layer - can use starts to go level up or down, push stuff on lover level to be able to cross on higher level
     - area of a level or the whole level is a word
     - player is a compound word, has to "degrade itself" twice
-
-## Ideas for levels
-
-### LEVEL 3 
-
-    - flea on the sea
-    - bee on a tree
-    - fail: bee on flea or sea
-    - flea is following player = bee
-
-### LEVEL 4
-
-    - boar on the floor is fail
-    - avoid floor as a boar
-    - push bee on tree
-    - end on an oar 
-
-### LEVEL 5
-
-    - part of the level is a square, bear has to finish in that area     
 
 ## Building an exe
 

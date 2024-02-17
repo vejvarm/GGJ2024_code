@@ -234,6 +234,7 @@ class Core:
     def display_end_screen(self):
             image = pygame.image.load(SCREENS_FOLDER.joinpath('end_screen.jpg'))
             self.display_surface.blit(image, (0, 0))
+            #TODO
             pygame.time.delay(5000)    
             keys = pygame.key.get_pressed()
                     
