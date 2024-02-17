@@ -84,7 +84,7 @@ class Player_Character(pygame.sprite.Sprite):
                     # draw player on top of object
                     self.is_combined = True
                     if not self.winner:
-                        self.text_message = "You're a " + f'{obj_a} on a {obj_b}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])
+                        self.text_message = "... a " + f'{obj_a} on a {obj_b}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])
                         self.font_on_screen = True
                     self.y_order = 9001
                     if obj_b not in OBJECTS_INVISIBLE:
@@ -118,16 +118,18 @@ class Player_Character(pygame.sprite.Sprite):
                             if not self.is_combined:
                                 #special case of oversized object e.g. TRUCK 
                                 if self.is_part_of_oversized_object(OBJECT_NAME_MAP[obj_a]):
-                                    self.combined_objects += 1
-                                    self.object_map[beyond_object_pos].is_combined_with = obj_b
-                                    self.grid_position = {'x':to_position[0], 'y': to_position[1]} 
-                                    self.draw_position = self.update_player_position()    
-                                    self.obj_to_hide.append(self.object_map[beyond_object_pos])                    
-                                    self.update_object_position(to_position, from_position, True, True)
-                                    self.object_map[to_position].y_order = 9001
-                                    self.combine_oversized_object(OBJECT_NAME_MAP[obj_a])
-                                    self.obj_to_hide.append(self.object_map[to_position])
-                                    self.object_map.pop(to_position)
+                                    # check if an object is already combined with the oversized object on that position (if so, don't combine = stacking 3)
+                                    if self.check_for_tripple_stacking(beyond_object_pos):
+                                        self.combined_objects += 1
+                                        self.object_map[beyond_object_pos].is_combined_with = obj_b
+                                        self.grid_position = {'x':to_position[0], 'y': to_position[1]} 
+                                        self.draw_position = self.update_player_position()    
+                                        self.obj_to_hide.append(self.object_map[beyond_object_pos])                    
+                                        self.update_object_position(to_position, from_position, True, True)
+                                        self.object_map[to_position].y_order = 9001
+                                        self.combine_oversized_object(OBJECT_NAME_MAP[obj_a])
+                                        self.obj_to_hide.append(self.object_map[to_position])
+                                        self.object_map.pop(to_position)
                                 else:
                                     # Combine normal stuff
                                     self.combined_objects += 1
@@ -193,6 +195,14 @@ class Player_Character(pygame.sprite.Sprite):
 
             self.check_player_on_tile(to_position)
 
+    def check_for_tripple_stacking(self, position):
+        for obj in self.obj_to_hide:
+            if (obj.grid_position['x'], obj.grid_position['y']) == position:
+                #can't move there - tripple stack
+                return False
+        #can move there
+        return True
+
     def check_player_on_tile(self, to_position):
         # check if tile can be combined with player (boar on a floor)
         if to_position in self.object_map and self.object_map[to_position].type[1] == 0:
@@ -205,7 +215,7 @@ class Player_Character(pygame.sprite.Sprite):
             self.grid_position = {'x': to_position[0], 'y': to_position[1]}
             self.draw_position = self.update_player_position()
             if not self.winner:
-                self.text_message = "You're a " + f'{self.type[0]} on a {TILES[self.ground_map[to_position]][0]}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])
+                self.text_message = "... a " + f'{self.type[0]} on a {TILES[self.ground_map[to_position]][0]}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])
                 self.font_on_screen = True
             else:
                 self.text_message = f'{self.type[0]} on a ...'
