@@ -4,8 +4,8 @@
 # Links
 > [Introduction Video](https://youtu.be/IBjYyKP618Y) \
 > [Game page on GGJ website](https://globalgamejam.org/games/2024/have-you-heard-3) \
-> [Alpha demo build](https://ggjv4.s3.us-west-1.amazonaws.com/files/games/2024/13277/exec/but_have_you_heard_of.zip?VersionId=sVb.AnX_JYuhNRnu6XyYcY1cH_XJoP2V)
-
+> [Download demo](https://mindduck.itch.io/but-have-you-heard-of) \
+> 
 # Stuff that has been done
     - title screen added
     - show what level you are on and how many opbejcts combined / how many to win
