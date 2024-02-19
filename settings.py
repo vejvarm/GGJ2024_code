@@ -4,7 +4,7 @@ DEFAULT_LEVEL = 0
 
 ROOT = pathlib.Path("./")
 
-MAPS_FOLDER = ROOT.joinpath("assets/Maps")
+MAPS_FOLDER = ROOT.joinpath("assets/maps")
 OBJECTS_FOLDER = ROOT.joinpath("assets/objects")
 AUDIO_FOLDER = ROOT.joinpath("assets/audio")
 SCREENS_FOLDER = ROOT.joinpath("assets/screens")
