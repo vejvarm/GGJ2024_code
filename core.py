@@ -3,7 +3,7 @@ import pathlib
 import pygame
 from settings import *
 from player_character import Player_Character
-from object_character import Object_character
+from object_character import ObjectCharacter
 from support import import_folder, calculate_position, load_object_map, play_music
 from pytmx.util_pygame import load_pygame
 from tile import Tile
@@ -46,6 +46,7 @@ class Core:
 
         self.player_obj_id = LEVEL_PLAYER_ID_MAP[self.level]
         self.all_sprites.empty()
+        print(f"Loading level {level}")
         self.load_level(level)
         self.player_character.current_level = self.level
         self.player_character.combined_objects = 0
@@ -101,8 +102,8 @@ class Core:
                 for o in self.player_character.obj_to_hide:
                     self.all_sprites.remove(o)
                     # pop from object map
-                    if (o.grid_position['x'], o.grid_position['y']) in self.player_character.object_map:
-                        self.player_character.object_map.pop((o.grid_position['x'], o.grid_position['y']))
+                    if o.grid_position in self.player_character.object_map:
+                        self.player_character.object_map.pop(o.grid_position)
                 self.player_character.obj_to_hide = []
         # combined self and didn't win
         elif not self.player_character.winner and self.player_character.is_combined:
@@ -149,14 +150,17 @@ class Core:
         path_to_objects = MAPS_FOLDER.joinpath(f"level{level}_Objects.csv")
         path_to_ground = MAPS_FOLDER.joinpath(f"level{level}_Ground.csv")
         tmx_data = load_pygame(path_to_level)
-        obj_xy_array = load_object_map(path_to_objects)
         grnd_xy_array = load_object_map(path_to_ground)
+        obj_xy_array = load_object_map(path_to_objects)
 
         # TODO: refactor ground and object map to one map with tuples as stacks of objects
 
         # object map with object ids
         for (x, y), id_str in obj_xy_array.items():
             obj_id = int(id_str)
+            props = tmx_data.get_tile_properties(x, y, 1)
+            if props is None:
+                props = tmx_data.get_tile_properties(x, y, 0)
             if obj_id == -1:
                 continue
             elif obj_id == self.player_obj_id:
@@ -164,16 +168,23 @@ class Core:
                                                          self.ground_map, self.all_sprites, y, obj_id,
                                                          self.current_tile_size)
             else:
-                self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y + x / 100, 'object',
-                                                        self.current_tile_size)
+                print(obj_id)
+                if props:
+                    obj_name = pathlib.Path(props['source']).stem
+                else:
+                    obj_name = str(obj_id)
+                self.obj_map[(x, y)] = ObjectCharacter(self.all_sprites, (x, y), obj_id, obj_name, y + x / 100,
+                                                       'object', self.current_tile_size)
 
         # ground map from tmx with tile ids from csv
         for (x, y), id_str in grnd_xy_array.items():
-            self.ground_map[(x, y)] = int(id_str)  # tile id
+            # self.ground_map[(x, y)] = int(id_str)  # tile id
             props = tmx_data.get_tile_properties(x, y, 0)
             if props:
                 tile_name = pathlib.Path(props['source']).stem
-                Tile(self.all_sprites, calculate_position(x, y, self.current_tile_size), int(id_str), tile_name, y, 'ground')
+            else:
+                tile_name = str(id_str)
+            self.ground_map[(x, y)] = Tile(self.all_sprites, calculate_position(x, y, self.current_tile_size), int(id_str), tile_name, y, 'ground')
 
     def display_hud(self):
 
@@ -261,8 +272,9 @@ class YSortGroup(pygame.sprite.Group):
         for layer in LAYERS.values():
             for sprite in sorted(self.sprites(), key=lambda sprite: sprite.y_order):
                 if sprite.z == layer:
-                    if sprite.type[0] not in OBJECTS_INVISIBLE:
-                        self.display_surface.blit(sprite.image, sprite)
+                    if layer > 0 and sprite.type[0] in OBJECTS_INVISIBLE:
+                        continue
+                    self.display_surface.blit(sprite.image, sprite)
 
     def scale(self, width, height):
         for sprite in self.sprites():

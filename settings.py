@@ -91,6 +91,7 @@ TILE_COMBINATIONS = {
 
 # 1 = can be combined
 TILES = {
+    -1: ('empty', 0),  # empty tile (for out of bounds
     0: ('grass', 0),    
     1: ('grass', 0),    
     2: ('grass', 0),    
@@ -101,7 +102,10 @@ TILES = {
     7: ('floor', 1),
     8: ('floor', 1),
     9: ('grass', 0),    
-    10: ('grass', 0),  
+    10: ('grass', 0),
+    11: ('river', 0),  # TODO: check
+    12: ('river_bank', 0),  # TODO: check
+    13: ('shore', 1),  # TODO: check
 }
 TILE_NAME_MAP = {v[0]: k for k, v in TILES.items()}
 

@@ -6,6 +6,33 @@ from stopwatch import Stopwatch
 from debug import debug
 from support import calculate_position
 from collections import namedtuple
+from tile import Object
+
+
+def objects_can_be_combined(obj_a, obj_b):
+    # obj_a = 'bear'
+    obj_a_id = OBJECT_NAME_MAP[obj_a]
+    obj_b_id = OBJECT_NAME_MAP[obj_b]
+
+    if obj_b_id in OBJECT_COMBINATIONS[obj_a_id]:
+        return True
+    else:
+        return False
+
+
+def tile_and_object_can_be_combined(tile_id, obj_name):
+    obj_id = OBJECT_NAME_MAP[obj_name]
+    if obj_id in TILE_COMBINATIONS[tile_id]:
+        return True
+    else:
+        return False
+
+class PlayerCharacter(Object):
+    def __init__(self, groups, pos, obj_id, fl_name, y_order, layer='object', tile_size=TILE_SIZE):
+        super().__init__(groups, pos, obj_id, fl_name, y_order, layer, tile_size)
+
+    def get_type(self, obj_id: int) -> tuple[str, int]:
+        return OBJECTS[obj_id]
 
 
 class Player_Character(pygame.sprite.Sprite):
@@ -16,7 +43,7 @@ class Player_Character(pygame.sprite.Sprite):
         self.image = pygame.image.load(path_to_image)
         self.type = OBJECTS[obj_class_id]
         self.z = LAYERS[z]
-        self.grid_position = {'x': pos[0], 'y': pos[1]}
+        self.grid_position = pos
         self.tile_size = tile_size
         self.draw_position = self.update_player_position()
         self.object_map = object_map
@@ -37,9 +64,9 @@ class Player_Character(pygame.sprite.Sprite):
         self.player_won_by = ''
 
     def update_player_position(self):
-        position = calculate_position(self.grid_position['x'], self.grid_position['y'], self.tile_size)
+        position = calculate_position(self.grid_position[0], self.grid_position[1], self.tile_size)
         self.rect = self.image.get_rect(topleft=position)
-        self.y_order = self.grid_position['y'] + self.grid_position['x'] / 100
+        self.y_order = self.grid_position[1] + self.grid_position[0] / 100
         return position
 
     def get_input(self, event):
@@ -55,7 +82,6 @@ class Player_Character(pygame.sprite.Sprite):
             if event.key in [pygame.K_LEFT, pygame.K_a, pygame.K_q]:
                 dx -= 1
                 move = True
-                # self.move_player(self.grid_position, (self.grid_position['x']-1, self.grid_position['y']))
             if event.key in [pygame.K_UP, pygame.K_w, pygame.K_e]:
                 dy -= 1
                 move = True
@@ -66,22 +92,21 @@ class Player_Character(pygame.sprite.Sprite):
                 self.reset_level = True    
 
         if move:
-            self.move_player(self.grid_position, (self.grid_position['x'] + dx, self.grid_position['y'] + dy))
+            self.move_player(self.grid_position, (self.grid_position[0] + dx, self.grid_position[1] + dy))
 
     def move_player(self, from_position, to_position):
-        from_position = (from_position['x'], from_position['y'])
         # check level exists = can't go outside of level
-        if to_position in self.ground_map.keys() and self.ground_map[to_position] != -1:
+        if to_position in self.ground_map.keys() and self.ground_map[to_position].id != -1:
             # check object exists where we're moving
             if to_position in self.object_map.keys():                
                 # check if object combines with player
                 obj_a = self.type[0]
                 obj_b = self.object_map[to_position].type[0]
-                if self.objects_can_be_combined(obj_a, obj_b):
+                if objects_can_be_combined(obj_a, obj_b):
                     # COMBINE PLAYER AND OBJECT!
                     self.combined_objects += 1
                     self.winner = self.level_win_conditions_met()
-                    self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                    self.grid_position = to_position
                     self.draw_position = self.update_player_position()
                     # draw player on top of object
                     self.is_combined = True
@@ -91,8 +116,6 @@ class Player_Character(pygame.sprite.Sprite):
                     self.y_order = 9001
                     if obj_b not in OBJECTS_INVISIBLE:
                         self.draw_position = (self.draw_position[0], self.draw_position[1] - self.tile_size / 4)
-                    else:
-                        self.draw_position = (self.draw_position[0], self.draw_position[1])
                     self.rect = self.image.get_rect(topleft=self.draw_position)
 
                     #for winner music
@@ -115,7 +138,7 @@ class Player_Character(pygame.sprite.Sprite):
                         # or another object then check if it can be combined
                         obj_a = self.object_map[beyond_object_pos].type[0]
                         obj_b = self.object_map[to_position].type[0]
-                        if self.objects_can_be_combined(obj_a, obj_b):
+                        if objects_can_be_combined(obj_a, obj_b):
                             # COMBINE!
                             if not self.is_combined:
                                 #special case of oversized object e.g. TRUCK 
@@ -124,7 +147,7 @@ class Player_Character(pygame.sprite.Sprite):
                                     if self.check_for_tripple_stacking(beyond_object_pos):
                                         self.combined_objects += 1
                                         self.object_map[beyond_object_pos].is_combined_with = obj_b
-                                        self.grid_position = {'x':to_position[0], 'y': to_position[1]} 
+                                        self.grid_position = to_position
                                         self.draw_position = self.update_player_position()    
                                         self.obj_to_hide.append(self.object_map[beyond_object_pos])                    
                                         self.update_object_position(to_position, from_position, True, True)
@@ -136,7 +159,7 @@ class Player_Character(pygame.sprite.Sprite):
                                     # Combine normal stuff
                                     self.combined_objects += 1
                                     self.winner = self.level_win_conditions_met()
-                                    self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                                    self.grid_position = to_position
                                     self.draw_position = self.update_player_position()
                                     # draw objects on top of each other
                                     self.obj_to_hide.append(self.object_map[beyond_object_pos])
@@ -162,10 +185,10 @@ class Player_Character(pygame.sprite.Sprite):
                                     # or another object then check if it can be combined
                                     obj_a = self.object_map[beyond_object_pos].type[0]
                                     obj_b = self.object_map[beyond_beyond_object_pos].type[0]
-                                    if self.objects_can_be_combined(obj_a, obj_b):
+                                    if objects_can_be_combined(obj_a, obj_b):
                                         self.combined_objects += 1
                                         self.winner = self.level_win_conditions_met()
-                                        self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                                        self.grid_position = to_position
                                         self.draw_position = self.update_player_position()
                                         self.obj_to_hide.append(self.object_map[beyond_beyond_object_pos])
                                         self.obj_to_hide.append(self.object_map[beyond_object_pos])
@@ -175,31 +198,30 @@ class Player_Character(pygame.sprite.Sprite):
                                         self.object_map[beyond_beyond_object_pos].y_order = 9001
                                         self.text_message = f'{obj_a} on a {obj_b}'
                                         self.font_on_screen = True
-                                                                              
-                                    #return    
+                                    # return
                                 else:
-                                    #move to empty space     
-                                    self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                                    # move to empty space
+                                    self.grid_position = to_position
                                     self.draw_position = self.update_player_position()
                                     self.update_object_position(beyond_object_pos, to_position, False, False)
                                     self.update_object_position(to_position, from_position, False, False)                                                  
                             #return
                     else:
                         # if not combining and movable, move player and object
-                        self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                        self.grid_position = to_position
                         self.draw_position = self.update_player_position()
                         # and move object and update object map
                         self.update_object_position(to_position, from_position, False, False)
             else:
                 # move normally
-                self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+                self.grid_position = to_position
                 self.draw_position = self.update_player_position()
 
             self.check_player_on_tile(to_position)
 
     def check_for_tripple_stacking(self, position):
         for obj in self.obj_to_hide:
-            if (obj.grid_position['x'], obj.grid_position['y']) == position:
+            if obj.grid_position == position:
                 #can't move there - tripple stack
                 return False
         #can move there
@@ -210,19 +232,19 @@ class Player_Character(pygame.sprite.Sprite):
         if to_position in self.object_map and self.object_map[to_position].type[1] == 0:
             return
 
-        if self.tile_and_object_can_be_combined(self.ground_map[to_position], self.type[0]):
+        if tile_and_object_can_be_combined(self.ground_map[to_position].id, self.type[0]):
             self.combined_objects += 1
             self.is_combined = True
             self.winner = self.level_win_conditions_met()
-            self.grid_position = {'x': to_position[0], 'y': to_position[1]}
+            self.grid_position = to_position
             self.draw_position = self.update_player_position()
             if not self.winner:
-                self.text_message = "... a " + f'{self.type[0]} on a {TILES[self.ground_map[to_position]][0]}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])
+                self.text_message = "... a " + f'{self.type[0]} on a {self.ground_map[to_position].type[0]}' + "... FAILED: Objects combined: " + str(self.combined_objects) + '/' + str(LEVEL_WIN_CONDITION[self.current_level])
                 self.font_on_screen = True
             else:
                 self.text_message = f'{self.type[0]} on a ...'
                 #for winner music
-                self.player_won_by = TILES[self.ground_map[to_position]][0]
+                self.player_won_by = self.ground_map[to_position].type[0]
 
             self.y_order = 9001
             self.draw_position = (self.draw_position[0], self.draw_position[1] - self.tile_size / 4)
@@ -246,8 +268,8 @@ class Player_Character(pygame.sprite.Sprite):
                     #all parts combined
                     names_of_parts = []
                     for o_pos in list_of_parts:
-                        names_of_parts.append(self.object_map[(o_pos['x'],o_pos['y'])].is_combined_with)
-                        self.object_map.pop((o_pos['x'],o_pos['y']))
+                        names_of_parts.append(self.object_map[o_pos].is_combined_with)
+                        self.object_map.pop(o_pos)
                     #display final text for all parts
                     #prepare message
                     final_message = 'a '    
@@ -274,34 +296,16 @@ class Player_Character(pygame.sprite.Sprite):
         # to pos = puck
         # final pos = truck
         if oversized_object == True:
-            self.object_map[to_position].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
-            self.object_map[to_position].draw_object_combined()
+            self.object_map[to_position].grid_position = final_pos
+            self.object_map[to_position].get_draw_position_combined()
         else:            
             self.object_map[final_pos] = self.object_map[to_position]          
             self.object_map.pop(to_position)
-            self.object_map[final_pos].grid_position = {'x': final_pos[0], 'y': final_pos[1]}
+            self.object_map[final_pos].grid_position = final_pos
             if (combining):
-                self.object_map[final_pos].draw_object_combined()
+                self.object_map[final_pos].get_draw_position_combined()
             else:
-                self.object_map[final_pos].draw_object()
-     
-               
-    def objects_can_be_combined(self, obj_a, obj_b):
-        # obj_a = 'bear'
-        obj_a_id = OBJECT_NAME_MAP[obj_a]
-        obj_b_id = OBJECT_NAME_MAP[obj_b]
-
-        if obj_b_id in OBJECT_COMBINATIONS[obj_a_id]:
-            return True
-        else:
-            return False
-
-    def tile_and_object_can_be_combined(self, tile_id, obj_name):
-        obj_id = OBJECT_NAME_MAP[obj_name]
-        if obj_id in TILE_COMBINATIONS[tile_id]:
-            return True
-        else:
-            return False
+                self.object_map[final_pos].get_draw_position()
 
     def update(self, dt, event=None):
         self.get_input(event)
