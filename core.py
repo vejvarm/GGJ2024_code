@@ -2,11 +2,10 @@ import pathlib
 
 import pygame
 from settings import *
+from objects import Tile, ObjectCharacter
 from player_character import Player_Character
-from object_character import ObjectCharacter
 from support import import_folder, calculate_position, load_object_map, play_music
 from pytmx.util_pygame import load_pygame
-from tile import Tile
 from sys import exit
 import time
 

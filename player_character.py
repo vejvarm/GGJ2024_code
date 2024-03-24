@@ -6,7 +6,7 @@ from stopwatch import Stopwatch
 from debug import debug
 from support import calculate_position
 from collections import namedtuple
-from tile import Object
+from objects import Object
 
 
 def objects_can_be_combined(obj_a, obj_b):
