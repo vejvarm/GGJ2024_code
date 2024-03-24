@@ -99,6 +99,7 @@ class Core:
             if keys[pygame.K_SPACE]:
                 self.player_character.font_on_screen = False
                 # hide objects
+                # TODO: can be done with obj.kill() method within player class, which removes obj from all sprite groups
                 for o in self.player_character.obj_to_hide:
                     self.all_sprites.remove(o)
                     # pop from object map
@@ -154,16 +155,20 @@ class Core:
         obj_xy_array = load_object_map(path_to_objects)
 
         # TODO: refactor ground and object map to one map with tuples as stacks of objects
-
+        #   this will allow us to have easier time comparing objects and ground tiles during moving and combination
+        #   for the future: will also allow to stack more than 2 objects on top of each other
         # object map with object ids
         for (x, y), id_str in obj_xy_array.items():
             obj_id = int(id_str)
-            props = tmx_data.get_tile_properties(x, y, 1)
-            if props is None:
-                props = tmx_data.get_tile_properties(x, y, 0)
             if obj_id == -1:
                 continue
-            elif obj_id == self.player_obj_id:
+
+            props = tmx_data.get_tile_properties(x, y, 1)
+            if props is None:
+                # TODO: this feels like a hack. Not sure why tmx object layer doesn't contain all necessary objects to load the level.
+                props = tmx_data.get_tile_properties(x, y, 0)
+
+            if obj_id == self.player_obj_id:
                 self.player_character = Player_Character(self.all_sprites, (x, y), 'object', self.obj_map,
                                                          self.ground_map, self.all_sprites, y, obj_id,
                                                          self.current_tile_size)

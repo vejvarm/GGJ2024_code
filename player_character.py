@@ -299,7 +299,7 @@ class Player_Character(pygame.sprite.Sprite):
             self.object_map[to_position].grid_position = final_pos
             self.object_map[to_position].get_draw_position_combined()
         else:            
-            self.object_map[final_pos] = self.object_map[to_position]          
+            self.object_map[final_pos] = self.object_map[to_position]
             self.object_map.pop(to_position)
             self.object_map[final_pos].grid_position = final_pos
             if (combining):
