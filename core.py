@@ -151,6 +151,9 @@ class Core:
         tmx_data = load_pygame(path_to_level)
         obj_xy_array = load_object_map(path_to_objects)
         grnd_xy_array = load_object_map(path_to_ground)
+
+        # TODO: refactor ground and object map to one map with tuples as stacks of objects
+
         # object map with object ids
         for (x, y), id_str in obj_xy_array.items():
             obj_id = int(id_str)
@@ -163,12 +166,14 @@ class Core:
             else:
                 self.obj_map[(x, y)] = Object_character(self.all_sprites, (x, y), obj_id, y + x / 100, 'object',
                                                         self.current_tile_size)
-        # load tile ids from csv
+
+        # ground map from tmx with tile ids from csv
         for (x, y), id_str in grnd_xy_array.items():
             self.ground_map[(x, y)] = int(id_str)  # tile id
-        # ground map with tile ids
-        for x, y, surface in tmx_data.get_layer_by_name('Ground').tiles():
-            Tile(self.all_sprites, surface, calculate_position(x, y, self.current_tile_size), 'ground', y)
+            props = tmx_data.get_tile_properties(x, y, 0)
+            if props:
+                tile_name = pathlib.Path(props['source']).stem
+                Tile(self.all_sprites, calculate_position(x, y, self.current_tile_size), int(id_str), tile_name, y, 'ground')
 
     def display_hud(self):
 

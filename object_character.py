@@ -17,7 +17,6 @@ class Object_character(pygame.sprite.Sprite):
         self.y_order = y_order
         self.is_combined_with = ''
 
-
     def draw_object(self):
         position = calculate_position(self.grid_position['x'], self.grid_position['y'], self.tile_size)
         #if object is a wall then draw it higher so it aligns with tiles

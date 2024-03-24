@@ -62,6 +62,7 @@ class Game:
                     pygame.quit()
                     exit()
 
+
 #main code
 if __name__ == '__main__':
     game = Game()

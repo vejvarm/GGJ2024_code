@@ -7,9 +7,11 @@ from debug import debug
 from support import calculate_position
 from collections import namedtuple
 
+
 class Player_Character(pygame.sprite.Sprite):
     def __init__(self, groups, pos: tuple[int, int], z, object_map, ground_map, all_sprites, y_order, obj_class_id: int, tile_size = TILE_SIZE):
         super().__init__(groups)
+        # TODO: Refactor this class and see what we can offload to different classes
         path_to_image = OBJECTS_FOLDER.joinpath(f"{obj_class_id}.png")
         self.image = pygame.image.load(path_to_image)
         self.type = OBJECTS[obj_class_id]
